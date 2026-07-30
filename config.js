@@ -18,11 +18,10 @@ window.AVIS_CONFIG = {
    *  "manuel"  : uniquement les avis de la liste `avisMisEnAvant` ci-dessous
    *              (aucune clé API nécessaire — fonctionne tout de suite)
    *
-   *  👉 Actuellement en "manuel" pour que le widget marche IMMÉDIATEMENT.
-   *     Quand tu auras renseigné `placeId` + `cleApiGoogle` ci-dessous,
-   *     repasse en "hybride" pour ajouter tes vrais avis Google.
+   *  👉 En "hybride" : les vrais avis Google (via l'API) s'affichent,
+   *     complétés par les avis de `avisMisEnAvant` ci-dessous.
    * --------------------------------------------------------------------- */
-  mode: "manuel",
+  mode: "hybride",
 
   /* --- Connexion à ta fiche Google Business Profile ---------------------
    *  Nécessaire pour les modes "hybride" et "google".
@@ -31,7 +30,7 @@ window.AVIS_CONFIG = {
    *  Laisse ces champs vides ("") si tu utilises le mode "manuel".
    * --------------------------------------------------------------------- */
   placeId: "ChIJH08d8WVC1xIRWFj-oVmxAAc",
-  cleApiGoogle: "",
+  cleApiGoogle: "AIzaSyCPZhpOe8MZD8alz3paB7Y3UXn_QmQB6Q8",
 
   /* --- Modération / filtres ---------------------------------------------
    *  noteMinimale     : masque les avis Google en dessous de cette note (1 à 5).
