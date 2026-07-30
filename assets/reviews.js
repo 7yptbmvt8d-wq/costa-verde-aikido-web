@@ -96,11 +96,15 @@
     return card;
   }
 
-  function renderHeader(avis) {
-    var count = avis.length;
-    var avg = count
-      ? (avis.reduce(function (s, a) { return s + (Number(a.note) || 0); }, 0) / count)
-      : 0;
+  function renderHeader(avis, summary) {
+    // Si l'API Google a renvoyé une note globale, on l'affiche telle quelle
+    // (note authentique Google, même s'il n'y a pas encore d'avis rédigés).
+    var count = summary ? summary.nombre : avis.length;
+    var avg = summary
+      ? summary.note
+      : (avis.length
+          ? avis.reduce(function (s, a) { return s + (Number(a.note) || 0); }, 0) / avis.length
+          : 0);
 
     var header = el("div", "cva-header");
 
@@ -113,8 +117,10 @@
     if (count) {
       var score = el("div", "cva-summary__score", avg.toFixed(1).replace(".", ","));
       var meta = el("div", "cva-summary__meta");
-      meta.innerHTML = starsHtml(avg) + "<div>" + count +
-        (count > 1 ? " avis" : " avis") + "</div>";
+      var label = summary
+        ? (count + (count > 1 ? " avis sur Google" : " avis sur Google"))
+        : (count + " avis");
+      meta.innerHTML = starsHtml(avg) + "<div>" + label + "</div>";
       right.appendChild(score);
       right.appendChild(meta);
     }
@@ -144,9 +150,9 @@
     return null;
   }
 
-  function paint(avis) {
+  function paint(avis, summary) {
     root.innerHTML = "";
-    root.appendChild(renderHeader(avis));
+    root.appendChild(renderHeader(avis, summary));
     if (!avis.length) {
       root.appendChild(el("div", "cva-state",
         "Soyez le premier à laisser un avis !"));
@@ -201,8 +207,13 @@
             fields: ["reviews", "rating", "userRatingCount", "displayName"]
           });
         }).then(function (res) {
-          var reviews = (res.place && res.place.reviews) || [];
-          resolve(reviews.map(normalizeGoogle));
+          var place = res.place || {};
+          var reviews = place.reviews || [];
+          resolve({
+            reviews: reviews.map(normalizeGoogle),
+            rating: place.rating || 0,
+            count: place.userRatingCount || 0
+          });
         }).catch(reject);
       };
       var s = document.createElement("script");
@@ -238,8 +249,8 @@
     }
 
     paintLoading();
-    loadGoogle().then(function (googleReviews) {
-      var filtered = applyModeration(googleReviews);
+    loadGoogle().then(function (googleData) {
+      var filtered = applyModeration(googleData.reviews);
       var combined = (mode === "google") ? filtered : manual.concat(filtered);
       // Dédoublonnage léger (même nom + même texte)
       var seen = {};
@@ -249,7 +260,11 @@
         seen[k] = true;
         return true;
       });
-      paint(combined);
+      // Note globale authentique Google (affichée même sans avis rédigés)
+      var summary = googleData.count
+        ? { note: googleData.rating, nombre: googleData.count }
+        : null;
+      paint(combined, summary);
     }).catch(function (err) {
       // En cas d'échec de l'API, on retombe sur les avis mis en avant
       // (ou un message si le mode était "google").
