@@ -30,7 +30,7 @@ window.AVIS_CONFIG = {
    *  - cleApiGoogle : ta clé "Places API (New)" restreinte (voir README §3)
    *  Laisse ces champs vides ("") si tu utilises le mode "manuel".
    * --------------------------------------------------------------------- */
-  placeId: "",
+  placeId: "ChIJH08d8WVC1xIRWFj-oVmxAAc",
   cleApiGoogle: "",
 
   /* --- Modération / filtres ---------------------------------------------
@@ -46,7 +46,7 @@ window.AVIS_CONFIG = {
    *  Si tu renseignes placeId ci-dessus, le lien est généré automatiquement.
    *  Sinon, colle ici l'URL vers laquelle envoyer les visiteurs (ta fiche Google).
    * --------------------------------------------------------------------- */
-  lienLaisserUnAvis: "https://www.google.com/maps/search/?api=1&query=Costa+Verde+A%C3%AFkido+Moriani-Plage",
+  lienLaisserUnAvis: "",
   afficherBoutonAvis: true,
 
   /* --- Avis mis en avant (ta sélection validée) --------------------------
