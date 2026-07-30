@@ -1,0 +1,213 @@
+/* ============================================================================
+ *  Widget d'avis — Costa Verde Aïkido
+ *  Feuille de style. Aucune modification nécessaire ici (voir config.js).
+ * ==========================================================================*/
+
+:root {
+  --cva-bg:        #ffffff;
+  --cva-surface:   #f7f7f5;
+  --cva-border:    #e6e5e0;
+  --cva-text:      #1f2328;
+  --cva-muted:     #6b7280;
+  --cva-accent:    #7c3f2e; /* terre / hakama */
+  --cva-accent-2:  #b08d57; /* or discret */
+  --cva-star:      #e6a817;
+  --cva-star-off:  #d9d7d0;
+  --cva-shadow:    0 1px 2px rgba(16,24,40,.06), 0 8px 24px rgba(16,24,40,.06);
+  --cva-radius:    14px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --cva-bg:       #14161a;
+    --cva-surface:  #1c1f25;
+    --cva-border:   #2a2e37;
+    --cva-text:     #e8eaed;
+    --cva-muted:    #9aa2ad;
+    --cva-accent:   #d8a08c;
+    --cva-accent-2: #cbab73;
+    --cva-star:     #f2c14e;
+    --cva-star-off: #3a3e47;
+    --cva-shadow:   0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+  }
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--cva-text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+               Arial, "Noto Sans", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.55;
+}
+
+.cva {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 20px 16px 32px;
+}
+
+/* --- En-tête / résumé ---------------------------------------------------- */
+.cva-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px;
+  justify-content: space-between;
+  margin-bottom: 22px;
+}
+.cva-header__titles h2 {
+  margin: 0;
+  font-size: 1.45rem;
+  letter-spacing: -.01em;
+}
+.cva-header__titles p {
+  margin: 4px 0 0;
+  color: var(--cva-muted);
+  font-size: .95rem;
+}
+
+.cva-summary {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.cva-summary__score {
+  font-size: 2.2rem;
+  font-weight: 700;
+  line-height: 1;
+}
+.cva-summary__meta { font-size: .85rem; color: var(--cva-muted); }
+.cva-summary__meta .cva-stars { margin-bottom: 2px; }
+
+/* --- Bouton "Laisser un avis" -------------------------------------------- */
+.cva-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: var(--cva-accent);
+  color: #fff;
+  font-weight: 600;
+  font-size: .95rem;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: transform .12s ease, filter .12s ease;
+  box-shadow: var(--cva-shadow);
+}
+.cva-cta:hover { filter: brightness(1.06); transform: translateY(-1px); }
+.cva-cta svg { width: 18px; height: 18px; }
+
+/* --- Grille des avis ----------------------------------------------------- */
+.cva-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.cva-card {
+  background: var(--cva-surface);
+  border: 1px solid var(--cva-border);
+  border-radius: var(--cva-radius);
+  padding: 18px 18px 16px;
+  box-shadow: var(--cva-shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: cva-fade .4s ease both;
+}
+@keyframes cva-fade {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.cva-card__top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.cva-avatar {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, var(--cva-accent), var(--cva-accent-2));
+  overflow: hidden;
+  font-size: 1.05rem;
+}
+.cva-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.cva-card__id { min-width: 0; }
+.cva-card__name {
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cva-card__date { font-size: .8rem; color: var(--cva-muted); }
+
+.cva-stars { display: inline-flex; gap: 2px; }
+.cva-stars svg { width: 16px; height: 16px; }
+.cva-stars .on  { fill: var(--cva-star); }
+.cva-stars .off { fill: var(--cva-star-off); }
+
+.cva-card__text {
+  margin: 0;
+  color: var(--cva-text);
+  font-size: .95rem;
+}
+
+.cva-badge-google {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: .72rem;
+  color: var(--cva-muted);
+  margin-top: auto;
+}
+.cva-badge-google svg { width: 13px; height: 13px; }
+
+/* --- États : chargement, vide, erreur ------------------------------------ */
+.cva-state {
+  text-align: center;
+  color: var(--cva-muted);
+  padding: 30px 10px;
+  font-size: .95rem;
+}
+.cva-skeleton {
+  background: var(--cva-surface);
+  border: 1px solid var(--cva-border);
+  border-radius: var(--cva-radius);
+  height: 150px;
+  position: relative;
+  overflow: hidden;
+}
+.cva-skeleton::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(125,125,125,.08), transparent);
+  transform: translateX(-100%);
+  animation: cva-shimmer 1.3s infinite;
+}
+@keyframes cva-shimmer { to { transform: translateX(100%); } }
+
+.cva-footer-note {
+  text-align: center;
+  font-size: .78rem;
+  color: var(--cva-muted);
+  margin-top: 22px;
+}
+.cva-footer-note a { color: var(--cva-accent-2); }
+
+@media (max-width: 560px) {
+  .cva-header { flex-direction: column; align-items: flex-start; }
+  .cva-summary__score { font-size: 1.9rem; }
+}
