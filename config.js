@@ -10,15 +10,19 @@ window.AVIS_CONFIG = {
 
   /* --- Identité affichée en haut du widget ------------------------------- */
   titre: "Ce que disent nos pratiquants",
-  sousTitre: "Les avis de notre communauté Aïkido",
+  sousTitre: "Costa Verde Aïkido — Dojo de Moriani-Plage",
 
   /* --- Mode d'affichage --------------------------------------------------
    *  "hybride" : avis Google + avis mis en avant par toi   (RECOMMANDÉ)
    *  "google"  : uniquement les vrais avis Google (API)
    *  "manuel"  : uniquement les avis de la liste `avisMisEnAvant` ci-dessous
    *              (aucune clé API nécessaire — fonctionne tout de suite)
+   *
+   *  👉 Actuellement en "manuel" pour que le widget marche IMMÉDIATEMENT.
+   *     Quand tu auras renseigné `placeId` + `cleApiGoogle` ci-dessous,
+   *     repasse en "hybride" pour ajouter tes vrais avis Google.
    * --------------------------------------------------------------------- */
-  mode: "hybride",
+  mode: "manuel",
 
   /* --- Connexion à ta fiche Google Business Profile ---------------------
    *  Nécessaire pour les modes "hybride" et "google".
@@ -42,7 +46,7 @@ window.AVIS_CONFIG = {
    *  Si tu renseignes placeId ci-dessus, le lien est généré automatiquement.
    *  Sinon, colle ici l'URL vers laquelle envoyer les visiteurs (ta fiche Google).
    * --------------------------------------------------------------------- */
-  lienLaisserUnAvis: "",
+  lienLaisserUnAvis: "https://www.google.com/maps/search/?api=1&query=Costa+Verde+A%C3%AFkido+Moriani-Plage",
   afficherBoutonAvis: true,
 
   /* --- Avis mis en avant (ta sélection validée) --------------------------
