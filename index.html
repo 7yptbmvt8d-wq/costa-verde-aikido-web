@@ -15,8 +15,10 @@
   </main>
 
   <!-- Configuration (le seul fichier à modifier) -->
-  <script src="config.js"></script>
+  <!-- Le ?v=... force le rechargement quand on met à jour (anti-cache).
+       À chaque modif de config.js ou reviews.js, incrémente ce numéro. -->
+  <script src="config.js?v=3"></script>
   <!-- Logique du widget -->
-  <script src="assets/reviews.js"></script>
+  <script src="assets/reviews.js?v=3"></script>
 </body>
 </html>

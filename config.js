@@ -10,7 +10,7 @@ window.AVIS_CONFIG = {
 
   /* --- Identité affichée en haut du widget ------------------------------- */
   titre: "Ce que disent nos pratiquants",
-  sousTitre: "Costa Verde Aïkido — Dojo de Moriani-Plage",
+  sousTitre: "Costa Verde Aïkido — Dojo de Santa Maria Poggio",
 
   /* --- Mode d'affichage --------------------------------------------------
    *  "hybride" : avis Google + avis mis en avant par toi   (RECOMMANDÉ)
