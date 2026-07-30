@@ -55,22 +55,22 @@ window.AVIS_CONFIG = {
    * --------------------------------------------------------------------- */
   avisMisEnAvant: [
     {
-      nom: "Marie L.",
+      nom: "Sébastien D.",
       note: 5,
-      date: "Février 2025",
-      texte: "Un dojo accueillant et bienveillant. Les cours sont exigeants mais toujours dans la bonne humeur. Je recommande à 100%, débutants comme confirmés."
+      date: "Avis Google",
+      texte: "Un dojo accueillant et bienveillant où l'on progresse à son rythme, dans le respect des valeurs traditionnelles de l'Aïkido. Les cours sont dynamiques, pédagogiques et adaptés à tous les niveaux, que l'on soit débutant ou pratiquant confirmé. L'ambiance est conviviale et familiale — on s'y sent bien dès le premier pas sur le tatami. Un vrai lieu de partage et d'épanouissement personnel. Je recommande vivement Costa Verde Aïkido à toutes celles et ceux qui veulent découvrir ou approfondir cet art martial unique."
     },
     {
-      nom: "Thomas R.",
+      nom: "Jessica D.",
       note: 5,
-      date: "Janvier 2025",
-      texte: "J'ai découvert l'Aïkido ici il y a un an. L'enseignement est de grande qualité et le professeur prend le temps d'expliquer. Une vraie école."
+      date: "Avis Google",
+      texte: "Dojo chaleureux et dynamique, où l'on progresse dans le respect, la convivialité et la tradition. Un vrai coup de cœur !"
     },
     {
-      nom: "Sophie B.",
+      nom: "Anne-Frédérique B.",
       note: 5,
-      date: "Décembre 2024",
-      texte: "Ambiance familiale et respectueuse. Mes enfants adorent, et moi aussi ! Un club à taille humaine où chacun trouve sa place."
+      date: "Avis Google",
+      texte: "Depuis trois ans de pratique, l'Aïkido me permet de garder la forme, une bonne santé et un bon moral ! Pour moi l'unité et un bon état d'esprit dans une pratique sportive sont très importants, et c'est ce que propose le Dojo de Santa Maria Poggio grâce à nos enseignants toujours très impliqués !! Merci à eux 👍"
     }
   ]
 };
