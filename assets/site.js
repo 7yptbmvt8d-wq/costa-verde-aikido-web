@@ -114,3 +114,28 @@
     start();
   }
 })();
+
+/* ============================================================================
+ *  Photos du site — appliquées depuis data/site.json (gérées dans l'admin).
+ *  Chaque emplacement porte un attribut data-photo="clé".
+ * ==========================================================================*/
+(function () {
+  "use strict";
+  var nodes = document.querySelectorAll("[data-photo]");
+  if (!nodes.length) return;
+  fetch("data/site.json", { cache: "no-store" })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (map) {
+      if (!map) return;
+      Array.prototype.forEach.call(nodes, function (el) {
+        var src = map[el.getAttribute("data-photo")];
+        if (!src) return;
+        el.style.backgroundImage = "url('" + src + "')";
+        el.style.backgroundSize = "cover";
+        el.style.backgroundPosition = "center";
+        el.classList.remove("cv-ph");
+        el.textContent = "";
+      });
+    })
+    .catch(function () { /* repli : les emplacements restent affichés */ });
+})();

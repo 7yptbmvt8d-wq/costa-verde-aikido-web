@@ -11,13 +11,27 @@ backend:
   base_url: https://snazzy-mandazi-e838c7.netlify.app
   auth_endpoint: /.netlify/functions/auth
 
-# Dossier où sont déposées les photos importées via l'admin
-media_folder: "assets/img/galerie"
-public_folder: "/assets/img/galerie"
+# Dossier par défaut où sont déposées les photos importées via l'admin
+media_folder: "assets/img"
+public_folder: "/assets/img"
 
 locale: "fr"
 
 collections:
+  # ---------------------------------------------------------- PHOTOS DU SITE
+  - name: "photos"
+    label: "Photos du site"
+    files:
+      - name: "site"
+        label: "Photos des pages"
+        file: "data/site.json"
+        description: "Les photos affichées sur les différentes pages du site. Laisse vide pour garder l'emplacement gris."
+        fields:
+          - { label: "Accueil — photo principale (bandeau)", name: "hero", widget: "image", required: false }
+          - { label: "Accueil — photo « Le dojo »", name: "dojo", widget: "image", required: false }
+          - { label: "Histoire — photo « La voie »", name: "histoire_voie", widget: "image", required: false }
+          - { label: "Histoire — portrait Moriheï Ueshiba", name: "ueshiba", widget: "image", required: false }
+          - { label: "Histoire — portrait Nobuyoshi Tamura", name: "tamura", widget: "image", required: false }
   # ---------------------------------------------------------- STAGES
   - name: "stages"
     label: "Stages"
@@ -59,5 +73,5 @@ collections:
                 label_singular: "Photo"
                 summary: "{{fields.legende}}"
                 fields:
-                  - { label: "Image", name: "image", widget: "image" }
+                  - { label: "Image", name: "image", widget: "image", media_folder: "/assets/img/galerie", public_folder: "/assets/img/galerie" }
                   - { label: "Légende", name: "legende", widget: "string", required: false }
