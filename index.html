@@ -3,22 +3,190 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="robots" content="noindex" />
-  <title>Avis — Costa Verde Aïkido</title>
-  <link rel="stylesheet" href="assets/reviews.css" />
+  <title>Costa Verde Aïkido — Dojo de Santa Maria Poggio, Corse</title>
+  <meta name="description" content="Club d'Aïkido à Santa Maria Poggio (Corse). Enseignement bienveillant et sans compétition : enfants dès 6 ans, ados et adultes. Cours d'essai gratuit." />
+
+  <!-- Réseaux sociaux (aperçu de lien) -->
+  <meta property="og:title" content="Costa Verde Aïkido — Santa Maria Poggio, Corse" />
+  <meta property="og:description" content="Pratiquer l'Aïkido face à la mer. Enfants dès 6 ans, ados et adultes. Cours d'essai gratuit." />
+  <meta property="og:type" content="website" />
+
+  <!-- Polices -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Libre+Franklin:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="assets/site.css?v=1" />
 </head>
 <body>
-  <main class="cva">
-    <div id="cva-app">
-      <div class="cva-state">Chargement des avis…</div>
-    </div>
-  </main>
+<div class="cv">
 
-  <!-- Configuration (le seul fichier à modifier) -->
-  <!-- Le ?v=... force le rechargement quand on met à jour (anti-cache).
-       À chaque modif de config.js ou reviews.js, incrémente ce numéro. -->
-  <script src="config.js?v=3"></script>
-  <!-- Logique du widget -->
-  <script src="assets/reviews.js?v=3"></script>
+  <!-- ================= NAV ================= -->
+  <header class="cv-header" id="cv-header">
+    <div class="cv-wrap cv-header__inner">
+      <a class="cv-logo" href="#top">Costa Verde <span>Aïkido</span></a>
+      <nav class="cv-nav" id="cv-nav" aria-label="Navigation principale">
+        <a class="cv-navlink" href="#apropos">Le dojo</a>
+        <a class="cv-navlink" href="#horaires">Horaires</a>
+        <a class="cv-navlink" href="#lignee">La lignée</a>
+        <a class="cv-navlink" href="#avis">Avis</a>
+        <a class="cv-navlink" href="#contact">Contact</a>
+      </nav>
+      <a class="cv-btn cv-btn--gold cv-header__cta" href="#contact">S'inscrire</a>
+      <button class="cv-burger" id="cv-burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="cv-nav">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ================= HERO ================= -->
+  <section class="cv-hero" id="top">
+    <div class="cv-hero__text">
+      <div class="cv-eyebrow cv-hero__eyebrow">Saison 2026 — 2027 · Corse</div>
+      <h1 class="cv-h1">Pratiquer l'Aïkido face à la mer.</h1>
+      <p class="cv-hero__lead">À Santa Maria Poggio, un enseignement bienveillant et accessible — enfants dès 6 ans, ados et adultes. Loin de la compétition, tout près de vous.</p>
+      <div class="cv-hero__actions">
+        <a class="cv-btn cv-btn--gold" href="#contact">Cours d'essai gratuit</a>
+        <a class="cv-btn cv-btn--ghost" href="#apropos">Découvrir le dojo</a>
+      </div>
+    </div>
+    <!-- Remplace la classe cv-ph par une vraie image :
+         style="background-image:url('assets/img/hero.jpg')" -->
+    <div class="cv-media cv-ph" role="img" aria-label="Photo de pratique au dojo, bord de mer">photo — pratique au dojo / bord de mer</div>
+  </section>
+
+  <!-- ================= CARTES INFOS ================= -->
+  <section class="cv-wrap cv-section--cards">
+    <div class="cv-cards">
+      <div class="cv-card">
+        <div class="cv-card__label">Reprise enfants</div>
+        <div class="cv-card__value">4 sept. 2026</div>
+        <div class="cv-card__sub">6 – 12 ans</div>
+      </div>
+      <div class="cv-card">
+        <div class="cv-card__label">Ados &amp; adultes</div>
+        <div class="cv-card__value">9 sept. 2026</div>
+        <div class="cv-card__sub">tous niveaux</div>
+      </div>
+      <div class="cv-card">
+        <div class="cv-card__label">Inscriptions</div>
+        <div class="cv-card__value">Toute l'année</div>
+        <div class="cv-card__sub">rejoignez-nous quand vous voulez</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= À PROPOS ================= -->
+  <section class="cv-wrap cv-two cv-section" id="apropos">
+    <div>
+      <div class="cv-eyebrow">Un peu d'histoire</div>
+      <h2 class="cv-h2" style="margin:16px 0 18px;">Bien plus qu'un art martial : une voie.</h2>
+      <p class="cv-p">L'Aïkido est une voie d'épanouissement personnel. Chacun progresse à son rythme, dans le respect de l'autre, sans esprit de compétition.</p>
+      <p class="cv-p cv-p--sm">Un enseignement adapté à toutes les capacités, y compris aux personnes en situation de léger handicap.</p>
+    </div>
+    <!-- Remplace cv-ph par une vraie image du dojo -->
+    <div class="cv-media cv-ph" style="border-radius:16px;min-height:320px;" role="img" aria-label="Photo du dojo"></div>
+  </section>
+
+  <!-- ================= HORAIRES ================= -->
+  <section class="cv-band-green" id="horaires">
+    <div class="cv-wrap cv-section">
+      <div class="cv-eyebrow cv-eyebrow--gold" style="margin-bottom:20px;">Horaires des cours</div>
+      <div class="cv-schedule">
+        <div class="cv-sched-card">
+          <h3>Enfants</h3>
+          <div class="cv-sched-row"><span>Lundi</span><span class="cv-sched-time">18h45 – 19h45</span></div>
+          <div class="cv-sched-row"><span>Vendredi</span><span class="cv-sched-time">18h00 – 19h00</span></div>
+        </div>
+        <div class="cv-sched-card">
+          <h3>Ados &amp; adultes</h3>
+          <div class="cv-sched-row"><span>Lundi</span><span class="cv-sched-time">19h45 – 21h00</span></div>
+          <div class="cv-sched-row"><span>Vendredi</span><span class="cv-sched-time">19h00 – 20h30</span></div>
+        </div>
+      </div>
+      <p class="cv-note">Dojo — Santa Maria Poggio, Corse. Horaires susceptibles d'ajustement en début de saison.</p>
+    </div>
+  </section>
+
+  <!-- ================= LIGNÉE ================= -->
+  <section class="cv-wrap cv-section" id="lignee">
+    <div class="cv-eyebrow" style="margin-bottom:8px;">La lignée</div>
+    <h2 class="cv-h2" style="margin-bottom:32px;">Une transmission fidèle.</h2>
+    <div class="cv-two" style="align-items:stretch;">
+      <div class="cv-master">
+        <!-- Remplace cv-ph par un portrait : <img class="cv-portrait" src="..." alt="..."> -->
+        <div class="cv-portrait cv-ph" role="img" aria-label="Portrait de Moriheï Ueshiba"></div>
+        <div>
+          <h3>Moriheï Ueshiba</h3>
+          <div class="cv-master__role">O Sensei · Fondateur de l'Aïkido</div>
+          <div class="cv-master__dates">1883 – 1969</div>
+        </div>
+      </div>
+      <div class="cv-master">
+        <div class="cv-portrait cv-ph" role="img" aria-label="Portrait de Nobuyoshi Tamura"></div>
+        <div>
+          <h3>Nobuyoshi Tamura</h3>
+          <div class="cv-master__role">8ᵉ Dan Aïkikaï</div>
+          <div class="cv-master__dates">1933 – 2010</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= AVIS ================= -->
+  <section class="cv-wrap cv-section" id="avis">
+    <div class="cv-reviews__head">
+      <div>
+        <div class="cv-eyebrow">Ils pratiquent chez nous</div>
+        <h2 class="cv-h2 cv-reviews__title">Ce que disent nos pratiquants.</h2>
+      </div>
+      <div id="cv-gscore" hidden>
+        <div class="cv-gscore">
+          <div class="cv-gscore__num" id="cv-gscore-num">—</div>
+          <div>
+            <div class="cv-stars" id="cv-gscore-stars"></div>
+            <div class="cv-gscore__meta" id="cv-gscore-meta"></div>
+          </div>
+          <a class="cv-btn cv-btn--gold" id="cv-review-cta" href="#" target="_blank" rel="noopener" style="padding:11px 18px;font-size:14px;">Laisser un avis</a>
+        </div>
+      </div>
+    </div>
+    <div class="cv-review-grid" id="cv-review-grid"></div>
+  </section>
+
+  <!-- ================= CTA ================= -->
+  <section class="cv-wrap" style="padding-bottom:var(--cv-pad-y);">
+    <div class="cv-cta-block">
+      <div>
+        <h2>Venez essayer un cours.</h2>
+        <div class="cv-cta-block__sub">C'est gratuit, et sans engagement. On vous prête le matériel.</div>
+      </div>
+      <a class="cv-btn cv-btn--dark" href="#contact">Nous rejoindre →</a>
+    </div>
+  </section>
+
+  <!-- ================= FOOTER / CONTACT ================= -->
+  <footer class="cv-footer" id="contact">
+    <div class="cv-wrap cv-footer__inner">
+      <div>
+        <div class="cv-footer__brand">Costa Verde Aïkido</div>
+        <div class="cv-footer__meta">Santa Maria Poggio · Corse · FFAB</div>
+      </div>
+      <nav class="cv-social" aria-label="Réseaux sociaux">
+        <!-- Remplace les # par les vraies adresses du club -->
+        <a href="#">Facebook</a>
+        <a href="#">Instagram</a>
+        <a href="#">WhatsApp</a>
+        <a href="#">YouTube</a>
+      </nav>
+    </div>
+  </footer>
+
+</div>
+
+<!-- Données des avis (partagées avec le widget /avis/) -->
+<script src="config.js?v=4"></script>
+<!-- Comportements du site (menu mobile + section avis) -->
+<script src="assets/site.js?v=1"></script>
 </body>
 </html>

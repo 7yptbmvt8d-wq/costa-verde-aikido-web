@@ -1,0 +1,405 @@
+/* ============================================================================
+ *  Costa Verde Aïkido — Site (page d'accueil)
+ *  Direction visuelle « Costa Verde » : vert profond + or sable.
+ *  Typo : Bricolage Grotesque (titres) / Libre Franklin (corps).
+ * ==========================================================================*/
+
+:root {
+  --cv-green:    #0e3b36;  /* vert profond — marque / fonds sombres */
+  --cv-gold:     #e0b15e;  /* or sable — accent */
+  --cv-cream:    #f6f4ef;  /* fond clair de page */
+  --cv-ink:      #12201e;  /* texte foncé */
+  --cv-ink-2:    #3a4744;  /* texte secondaire */
+  --cv-ink-3:    #5a6763;  /* texte tertiaire */
+  --cv-ink-4:    #7c8a82;  /* texte atténué */
+  --cv-cta-ink:  #3d4a2f;  /* texte sur fond or */
+  --cv-on-green: rgba(246,244,239,.82);
+  --cv-border:   rgba(18,32,30,.12);
+  --cv-border-g: rgba(246,244,239,.18);
+  --cv-wrap:     1180px;
+  --cv-pad-x:    clamp(20px, 5vw, 48px);
+  --cv-pad-y:    clamp(48px, 6vw, 72px);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--cv-green); }
+
+.cv {
+  font-family: "Libre Franklin", system-ui, -apple-system, sans-serif;
+  background: var(--cv-cream);
+  color: var(--cv-ink);
+  overflow-x: hidden;
+}
+
+.cv h1, .cv h2, .cv h3 {
+  font-family: "Bricolage Grotesque", "Libre Franklin", sans-serif;
+  letter-spacing: -.02em;
+  margin: 0;
+}
+
+.cv a { color: inherit; }
+
+.cv-wrap {
+  max-width: var(--cv-wrap);
+  margin: 0 auto;
+  padding: 0 var(--cv-pad-x);
+}
+
+.cv-eyebrow {
+  font-size: 12px;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--cv-green);
+}
+.cv-eyebrow--gold { color: var(--cv-gold); }
+
+/* --- Boutons ------------------------------------------------------------- */
+.cv-btn {
+  display: inline-block;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 15px;
+  padding: 15px 26px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: 0;
+  transition: transform .15s ease, background .15s ease, filter .15s ease;
+}
+.cv-btn:hover { transform: translateY(-2px); }
+.cv-btn--gold  { background: var(--cv-gold);  color: var(--cv-green); }
+.cv-btn--gold:hover { filter: brightness(1.05); }
+.cv-btn--ghost { background: rgba(246,244,239,.12); color: var(--cv-cream); }
+.cv-btn--ghost:hover { background: rgba(246,244,239,.2); }
+.cv-btn--dark  { background: var(--cv-green); color: var(--cv-cream); }
+.cv-btn--dark:hover { filter: brightness(1.15); }
+
+/* --- Header / Nav -------------------------------------------------------- */
+.cv-header {
+  background: var(--cv-green);
+  color: var(--cv-cream);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.cv-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 18px;
+  padding-bottom: 18px;
+  gap: 16px;
+}
+.cv-logo {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-weight: 800;
+  font-size: 20px;
+  text-decoration: none;
+  color: var(--cv-cream);
+  white-space: nowrap;
+}
+.cv-logo span { color: var(--cv-gold); }
+
+.cv-nav {
+  display: flex;
+  gap: 26px;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(246,244,239,.85);
+}
+.cv-navlink {
+  position: relative;
+  cursor: pointer;
+  text-decoration: none;
+  transition: color .15s ease;
+}
+.cv-navlink:hover { color: var(--cv-gold); }
+
+.cv-header__cta { padding: 11px 20px; font-size: 14px; border-radius: 8px; }
+
+/* Burger (mobile) */
+.cv-burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: transparent;
+  border: 0;
+  padding: 8px;
+  cursor: pointer;
+}
+.cv-burger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--cv-cream);
+  transition: transform .2s ease, opacity .2s ease;
+}
+.cv-header.is-open .cv-burger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.cv-header.is-open .cv-burger span:nth-child(2) { opacity: 0; }
+.cv-header.is-open .cv-burger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* --- Hero ---------------------------------------------------------------- */
+.cv-hero {
+  display: grid;
+  grid-template-columns: 1.1fr .9fr;
+  background: var(--cv-green);
+  color: var(--cv-cream);
+}
+.cv-hero__text {
+  padding: clamp(48px,7vw,84px) clamp(20px,5vw,64px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.cv-hero__eyebrow { color: var(--cv-gold); margin-bottom: 22px; }
+.cv-h1 {
+  font-weight: 800;
+  font-size: clamp(38px,5.4vw,64px);
+  line-height: 1.02;
+  margin-bottom: 22px;
+  text-wrap: balance;
+}
+.cv-hero__lead {
+  font-size: clamp(16px,2vw,18px);
+  line-height: 1.6;
+  color: var(--cv-on-green);
+  max-width: 46ch;
+  margin: 0 0 34px;
+}
+.cv-hero__actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+/* Média (photo) — placeholder hachuré à remplacer par une vraie image */
+.cv-media {
+  background-size: cover;
+  background-position: center;
+  min-height: 340px;
+}
+.cv-ph {
+  background: repeating-linear-gradient(45deg,#dfe6df,#dfe6df 12px,#e9eee8 12px,#e9eee8 24px);
+  display: flex;
+  align-items: flex-end;
+  padding: 22px;
+  font-family: ui-monospace, monospace;
+  font-size: 12px;
+  color: var(--cv-ink-4);
+}
+
+/* --- Cartes d'infos ------------------------------------------------------ */
+.cv-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.cv-card {
+  border: 1px solid var(--cv-border);
+  border-radius: 14px;
+  padding: 26px;
+  background: #fff;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.cv-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px -22px rgba(14,59,54,.4);
+}
+.cv-card__label {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-weight: 800;
+  font-size: 15px;
+  color: var(--cv-green);
+  margin-bottom: 6px;
+}
+.cv-card__value { font-size: 26px; font-weight: 700; }
+.cv-card__sub { font-size: 14px; color: var(--cv-ink-3); margin-top: 4px; }
+
+/* --- Sections génériques ------------------------------------------------- */
+.cv-section { padding-top: var(--cv-pad-y); padding-bottom: var(--cv-pad-y); }
+.cv-section--cards { padding-top: clamp(40px,5vw,56px); padding-bottom: 8px; }
+
+.cv-two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 44px;
+  align-items: center;
+}
+.cv-h2 {
+  font-weight: 800;
+  font-size: clamp(26px,3.4vw,36px);
+  line-height: 1.1;
+}
+.cv-p { font-size: 17px; line-height: 1.65; color: var(--cv-ink-2); margin: 0 0 16px; }
+.cv-p--sm { font-size: 15px; color: var(--cv-ink-3); margin: 0; }
+
+/* --- Horaires ------------------------------------------------------------ */
+.cv-band-green { background: var(--cv-green); color: var(--cv-cream); }
+.cv-schedule {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.cv-sched-card {
+  border: 1px solid var(--cv-border-g);
+  border-radius: 14px;
+  padding: 28px;
+}
+.cv-sched-card h3 {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-weight: 800;
+  font-size: 22px;
+  margin-bottom: 14px;
+}
+.cv-sched-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+.cv-sched-row + .cv-sched-row { border-top: 1px solid rgba(246,244,239,.14); }
+.cv-sched-time { color: var(--cv-gold); font-weight: 700; }
+.cv-note { font-size: 14px; color: rgba(246,244,239,.6); margin: 18px 0 0; }
+
+/* --- Lignée -------------------------------------------------------------- */
+.cv-master { display: flex; gap: 20px; align-items: center; }
+.cv-portrait {
+  width: 120px;
+  flex: 0 0 120px;
+  aspect-ratio: 3/4;
+  border-radius: 12px;
+  object-fit: cover;
+}
+.cv-master h3 { font-family: "Bricolage Grotesque", sans-serif; font-weight: 800; font-size: 22px; }
+.cv-master__role { font-size: 14px; color: var(--cv-ink-3); margin-top: 4px; }
+.cv-master__dates { font-size: 14px; color: var(--cv-ink-4); }
+
+/* --- Avis ---------------------------------------------------------------- */
+.cv-reviews__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+.cv-reviews__title { margin-top: 10px; }
+.cv-gscore {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.cv-gscore__num {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-weight: 800;
+  font-size: 40px;
+  line-height: 1;
+  color: var(--cv-green);
+}
+.cv-gscore__meta { font-size: 13px; color: var(--cv-ink-3); }
+.cv-stars { display: inline-flex; gap: 2px; }
+.cv-stars svg { width: 17px; height: 17px; }
+.cv-stars .on  { fill: var(--cv-gold); }
+.cv-stars .off { fill: #d9d5cc; }
+
+.cv-review-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+.cv-review-card {
+  background: #fff;
+  border: 1px solid var(--cv-border);
+  border-radius: 14px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.cv-review-card__top { display: flex; align-items: center; gap: 12px; }
+.cv-review-avatar {
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  color: #fff;
+  background: linear-gradient(135deg, var(--cv-green), #1c5a52);
+}
+.cv-review-card__name { font-weight: 700; }
+.cv-review-card__src { font-size: 13px; color: var(--cv-ink-4); }
+.cv-review-card__text { margin: 0; font-size: 15px; line-height: 1.6; color: var(--cv-ink-2); }
+.cv-badge-g {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: var(--cv-ink-4);
+  margin-top: auto;
+}
+.cv-badge-g svg { width: 14px; height: 14px; }
+
+/* --- CTA ----------------------------------------------------------------- */
+.cv-cta-block {
+  background: var(--cv-gold);
+  color: var(--cv-green);
+  border-radius: 18px;
+  padding: clamp(36px,5vw,56px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.cv-cta-block h2 { font-weight: 800; font-size: clamp(26px,3.4vw,36px); line-height: 1.05; margin-bottom: 8px; }
+.cv-cta-block__sub { font-size: 16px; color: var(--cv-cta-ink); }
+
+/* --- Footer -------------------------------------------------------------- */
+.cv-footer { background: var(--cv-green); color: rgba(246,244,239,.7); }
+.cv-footer__inner {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.cv-footer__brand {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-weight: 800;
+  font-size: 18px;
+  color: var(--cv-cream);
+}
+.cv-footer__meta { font-size: 14px; margin-top: 4px; }
+.cv-social { display: flex; gap: 18px; color: var(--cv-gold); font-weight: 600; font-size: 14px; }
+.cv-social a { text-decoration: none; transition: color .15s ease; }
+.cv-social a:hover { color: #fff; }
+
+/* --- Responsive ---------------------------------------------------------- */
+@media (max-width: 820px) {
+  .cv-hero { grid-template-columns: 1fr; }
+  .cv-cards { grid-template-columns: 1fr; }
+  .cv-two { grid-template-columns: 1fr; gap: 28px; }
+  .cv-schedule { grid-template-columns: 1fr; }
+
+  .cv-burger { display: flex; }
+  .cv-nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    gap: 0;
+    background: var(--cv-green);
+    padding: 8px var(--cv-pad-x) 20px;
+    border-top: 1px solid rgba(246,244,239,.12);
+    display: none;
+  }
+  .cv-header.is-open .cv-nav { display: flex; }
+  .cv-nav .cv-navlink { padding: 14px 0; border-bottom: 1px solid rgba(246,244,239,.08); }
+  .cv-header__cta { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { scroll-behavior: auto !important; }
+  .cv-btn, .cv-card { transition: none !important; }
+}
