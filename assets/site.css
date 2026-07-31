@@ -306,6 +306,22 @@ a.cv-sched-card:hover h3 { color: var(--cv-gold); }
 .cv-master__role { font-size: 14px; color: var(--cv-ink-3); margin-top: 4px; }
 .cv-master__dates { font-size: 14px; color: var(--cv-ink-4); }
 
+/* Version mise en avant (page Histoire) : portraits plus grands, liseré or */
+.cv-master--lg { gap: 26px; }
+.cv-master--lg .cv-portrait {
+  width: 200px;
+  flex: 0 0 200px;
+  border: 3px solid var(--cv-gold);
+  box-shadow: 0 14px 34px -16px rgba(0,0,0,.55);
+}
+.cv-master--lg h3 { font-size: clamp(24px, 2.6vw, 30px); }
+.cv-master--lg .cv-master__role { font-size: 16px; font-weight: 600; margin-top: 6px; }
+.cv-master--lg .cv-master__dates { font-size: 15px; margin-top: 2px; }
+@media (max-width: 560px) {
+  .cv-master--lg { flex-direction: column; align-items: flex-start; }
+  .cv-master--lg .cv-portrait { width: 220px; flex: 0 0 auto; }
+}
+
 /* --- Avis ---------------------------------------------------------------- */
 .cv-reviews__head {
   display: flex;

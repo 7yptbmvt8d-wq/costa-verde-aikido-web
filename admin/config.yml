@@ -11,6 +11,10 @@ backend:
   base_url: https://snazzy-mandazi-e838c7.netlify.app
   auth_endpoint: /.netlify/functions/auth
 
+# Mode brouillon : les modifications restent « En cours » ou « Prêt »
+# jusqu'au clic final sur « Publier ». Rien ne part en ligne avant.
+publish_mode: editorial_workflow
+
 # Dossier par défaut où sont déposées les photos importées via l'admin
 media_folder: "assets/img"
 public_folder: "/assets/img"
