@@ -11,7 +11,14 @@ gratuitement sur **GitHub Pages**, sans build ni serveur à maintenir.
 ## 🗂️ Structure
 
 ```
-├── index.html          ← la page d'accueil (le site)
+├── index.html          ← Accueil (hero + Le dojo + aperçus)
+├── histoire.html       ← Un peu d'histoire (la voie + lignée Ueshiba/Tamura)
+├── aikitaiso.html      ← Aïkitaïso
+├── horaires.html       ← Horaires
+├── stages.html         ← Stages
+├── galerie.html        ← Galerie
+├── avis.html           ← Avis (+ note Google en direct)
+├── contact.html        ← Contact & inscription
 ├── assets/
 │   ├── site.css        ← styles du site
 │   ├── site.js         ← menu mobile + section « Avis »

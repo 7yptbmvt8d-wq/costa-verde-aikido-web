@@ -113,7 +113,7 @@ body { margin: 0; background: var(--cv-green); }
 
 .cv-nav {
   display: flex;
-  gap: 26px;
+  gap: 20px;
   font-size: 14px;
   font-weight: 500;
   color: rgba(246,244,239,.85);
@@ -437,14 +437,8 @@ body { margin: 0; background: var(--cv-green); }
 .cv-stage__body h3 { font-family: "Bricolage Grotesque", sans-serif; font-weight: 800; font-size: 20px; margin: 0 0 6px; }
 
 /* --- Responsive ---------------------------------------------------------- */
-@media (max-width: 820px) {
-  .cv-features { grid-template-columns: 1fr; }
-  .cv-gallery { grid-template-columns: 1fr 1fr; }
-  .cv-hero { grid-template-columns: 1fr; }
-  .cv-cards { grid-template-columns: 1fr; }
-  .cv-two { grid-template-columns: 1fr; gap: 28px; }
-  .cv-schedule { grid-template-columns: 1fr; }
-
+/* Le menu (long) passe en burger dès 1080px pour ne jamais déborder. */
+@media (max-width: 1080px) {
   .cv-burger { display: flex; }
   .cv-nav {
     position: absolute;
@@ -460,6 +454,16 @@ body { margin: 0; background: var(--cv-green); }
   }
   .cv-header.is-open .cv-nav { display: flex; }
   .cv-nav .cv-navlink { padding: 14px 0; border-bottom: 1px solid rgba(246,244,239,.08); }
+}
+
+/* La mise en page (grilles) passe en 1 colonne sur mobile. */
+@media (max-width: 820px) {
+  .cv-features { grid-template-columns: 1fr; }
+  .cv-gallery { grid-template-columns: 1fr 1fr; }
+  .cv-hero { grid-template-columns: 1fr; }
+  .cv-cards { grid-template-columns: 1fr; }
+  .cv-two { grid-template-columns: 1fr; gap: 28px; }
+  .cv-schedule { grid-template-columns: 1fr; }
   .cv-header__cta { display: none; }
 }
 
