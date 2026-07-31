@@ -1,0 +1,12 @@
+# Configuration Netlify — Costa Verde Aïkido
+# Site statique (HTML/CSS/JS) : aucune étape de build.
+# Le dossier à publier est la racine du dépôt.
+
+[build]
+  publish = "."
+
+# En-têtes : petit cache raisonnable (les fichiers sont versionnés via ?v=…)
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
