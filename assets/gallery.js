@@ -1,17 +1,18 @@
 /* ============================================================================
  *  Galerie — carrousel par saison (Costa Verde Aïkido)
- *  Ne rien modifier ici : les photos se gèrent dans galerie-config.js
+ *  Les photos se gèrent dans l'espace admin (data/galerie.json).
+ *  Repli sur galerie-config.js si le fichier de données n'est pas joignable.
  * ==========================================================================*/
 (function () {
   "use strict";
 
-  var DATA = (window.GALERIE && window.GALERIE.saisons) || [];
   var seasonsEl = document.getElementById("cv-seasons");
   var trackEl = document.getElementById("cv-track");
   var dotsEl = document.getElementById("cv-dots");
   var carouselEl = document.getElementById("cv-carousel");
   if (!seasonsEl || !trackEl || !carouselEl) return;
 
+  var DATA = [];
   var current = 0;   // index de la saison
   var index = 0;     // index de la photo dans la saison
   var slidesCount = 0;
@@ -48,8 +49,7 @@
 
     if (!slidesCount) {
       trackEl.innerHTML = "";
-      carouselEl.querySelector(".cv-carousel__empty") ||
-        carouselEl.appendChild(mkEmpty());
+      if (!carouselEl.querySelector(".cv-carousel__empty")) carouselEl.appendChild(mkEmpty());
       toggleControls(false);
       dotsEl.innerHTML = "";
       return;
@@ -59,8 +59,9 @@
     toggleControls(true);
 
     trackEl.innerHTML = photos.map(function (p) {
-      var inner = p.src
-        ? '<img src="' + escapeHtml(p.src) + '" alt="' + escapeHtml(p.legende || "") + '" loading="lazy">'
+      var src = p.image || p.src || "";
+      var inner = src
+        ? '<img src="' + escapeHtml(src) + '" alt="' + escapeHtml(p.legende || "") + '" loading="lazy">'
         : '<div class="cv-slide__ph">' + escapeHtml(p.legende || "photo") + '</div>';
       var cap = p.legende ? '<div class="cv-slide__cap">' + escapeHtml(p.legende) + '</div>' : '';
       return '<div class="cv-slide">' + inner + cap + '</div>';
@@ -109,31 +110,38 @@
   if (nextBtn) nextBtn.addEventListener("click", next);
   if (prevBtn) prevBtn.addEventListener("click", prev);
 
-  // Clavier
-  carouselEl.addEventListener("keydown", function (e) {
-    if (e.key === "ArrowRight") { next(); }
-    else if (e.key === "ArrowLeft") { prev(); }
-  });
   carouselEl.setAttribute("tabindex", "0");
+  carouselEl.addEventListener("keydown", function (e) {
+    if (e.key === "ArrowRight") next();
+    else if (e.key === "ArrowLeft") prev();
+  });
 
-  // Glisser / balayer (tactile + souris)
   var startX = null;
-  function down(x) { startX = x; }
-  function up(x) {
+  carouselEl.addEventListener("touchstart", function (e) { startX = e.touches[0].clientX; }, { passive: true });
+  carouselEl.addEventListener("touchend", function (e) {
     if (startX === null) return;
-    var dx = x - startX;
+    var dx = e.changedTouches[0].clientX - startX;
     if (Math.abs(dx) > 40) { dx < 0 ? next() : prev(); }
     startX = null;
-  }
-  carouselEl.addEventListener("touchstart", function (e) { down(e.touches[0].clientX); }, { passive: true });
-  carouselEl.addEventListener("touchend", function (e) { up(e.changedTouches[0].clientX); });
+  });
 
-  /* --- Démarrage --------------------------------------------------------- */
-  if (!DATA.length) {
-    seasonsEl.innerHTML = "";
-    carouselEl.appendChild(mkEmpty());
-    return;
+  /* --- Chargement des données -------------------------------------------- */
+  function init(saisons) {
+    DATA = saisons || [];
+    if (!DATA.length) {
+      seasonsEl.innerHTML = "";
+      carouselEl.appendChild(mkEmpty());
+      return;
+    }
+    renderSeasons();
+    renderSlides();
   }
-  renderSeasons();
-  renderSlides();
+
+  fetch("data/galerie.json", { cache: "no-store" })
+    .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+    .then(function (j) { init((j && j.saisons) || []); })
+    .catch(function () {
+      // Repli (aperçu local via galerie-config.js)
+      init((window.GALERIE && window.GALERIE.saisons) || []);
+    });
 })();

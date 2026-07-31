@@ -1,0 +1,20 @@
+{
+  "saisons": [
+    {
+      "titre": "2025 – 2026",
+      "photos": [
+        { "image": "", "legende": "Cours enfants — reprise de septembre" },
+        { "image": "", "legende": "Pratique adultes au dojo" },
+        { "image": "", "legende": "Stage de fin d'année" }
+      ]
+    },
+    {
+      "titre": "2024 – 2025",
+      "photos": [
+        { "image": "", "legende": "Passage de grades" },
+        { "image": "", "legende": "Démonstration au forum des associations" },
+        { "image": "", "legende": "Entraînement du vendredi soir" }
+      ]
+    }
+  ]
+}

@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Libre+Franklin:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="icon" href="assets/img/logo.png" />
-  <link rel="stylesheet" href="assets/site.css?v=9" />
+  <link rel="stylesheet" href="assets/site.css?v=10" />
 </head>
 <body>
 <div class="cv">
@@ -45,7 +45,7 @@
       <h1 class="cv-h1">Pratiquer l'Aïkido face à la mer.</h1>
       <p class="cv-hero__lead">À Santa Maria Poggio, un enseignement bienveillant et accessible — enfants dès 6 ans, ados et adultes. Loin de la compétition, tout près de vous.</p>
       <div class="cv-hero__actions">
-        <a class="cv-btn cv-btn--gold" href="contact.html">Cours d'essai gratuit</a>
+        <a class="cv-btn cv-btn--gold" href="contact.html#essai">Cours d'essai gratuit</a>
         <a class="cv-btn cv-btn--ghost" href="#dojo">Découvrir le dojo</a>
       </div>
     </div>
@@ -137,7 +137,7 @@
         <h2>Venez essayer un cours.</h2>
         <div class="cv-cta-block__sub">C'est gratuit, et sans engagement. On vous prête le matériel.</div>
       </div>
-      <a class="cv-btn cv-btn--dark" href="contact.html">Nous rejoindre →</a>
+      <a class="cv-btn cv-btn--dark" href="contact.html#essai">Nous rejoindre →</a>
     </div>
   </section>
 
@@ -161,5 +161,18 @@
 </div>
 <script src="config.js?v=4"></script>
 <script src="assets/site.js?v=3"></script>
+<!-- Netlify Identity : gère la connexion à l'espace admin et les invitations -->
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on("init", function (user) {
+      if (!user) {
+        window.netlifyIdentity.on("login", function () {
+          document.location.href = "/admin/";
+        });
+      }
+    });
+  }
+</script>
 </body>
 </html>

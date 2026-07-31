@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Libre+Franklin:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="icon" href="assets/img/logo.png" />
-  <link rel="stylesheet" href="assets/site.css?v=9" />
+  <link rel="stylesheet" href="assets/site.css?v=10" />
 </head>
 <body>
 <div class="cv">
@@ -52,6 +52,9 @@
       <h3>E-mail</h3>
       <p><a href="mailto:costaverdeaikido.ffab@gmail.com" style="color:var(--cv-green);font-weight:600;">costaverdeaikido.ffab@gmail.com</a></p>
 
+      <h3>Téléphone</h3>
+      <p>Sandra — <a href="tel:+33633253497" style="color:var(--cv-green);font-weight:600;">06 33 25 34 97</a></p>
+
       <h3>Lieu</h3>
       <p>Dojo de Santa Maria Poggio<br>Haute-Corse (2B)</p>
 
@@ -74,19 +77,64 @@
 
       <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap;">
         <a class="cv-btn cv-btn--gold" href="https://www.helloasso.com/associations/costa-verde-aikido" target="_blank" rel="noopener">S'inscrire sur HelloAsso</a>
-        <a class="cv-btn cv-btn--ghost" href="mailto:costaverdeaikido.ffab@gmail.com?subject=Cours%20d'essai%20gratuit" style="color:var(--cv-green);background:rgba(14,59,54,.08);">Cours d'essai gratuit</a>
+        <a class="cv-btn cv-btn--ghost" href="#essai" style="color:var(--cv-green);background:rgba(14,59,54,.08);">Cours d'essai gratuit</a>
       </div>
     </div>
 
     <div>
-      <!-- Carte Google (sans clé API). Ajuste la requête si besoin. -->
+      <!-- Carte Google en vue satellite (t=k). Sans clé API. -->
       <iframe
-        title="Localisation du dojo — Santa Maria Poggio"
-        src="https://www.google.com/maps?q=Costa+Verde+Aikido+Santa+Maria+Poggio&output=embed"
+        title="Localisation du dojo — Santa Maria Poggio (vue satellite)"
+        src="https://www.google.com/maps?q=Costa+Verde+Aikido+Santa+Maria+Poggio&t=k&z=16&output=embed"
         style="width:100%;height:380px;border:0;border-radius:16px;"
         loading="lazy"
         referrerpolicy="no-referrer-when-downgrade">
       </iframe>
+    </div>
+  </section>
+
+  <!-- ================= FORMULAIRE COURS D'ESSAI ================= -->
+  <section class="cv-band-green" id="essai">
+    <div class="cv-wrap cv-section">
+      <div class="cv-eyebrow cv-eyebrow--gold" style="margin-bottom:14px;">Cours d'essai gratuit</div>
+      <h2 class="cv-h2" style="color:var(--cv-cream);margin-bottom:10px;">Venez essayer, c'est gratuit.</h2>
+      <p style="color:var(--cv-on-green);max-width:60ch;margin:0 0 26px;">Laissez-nous vos coordonnées : on vous recontacte pour convenir d'un premier cours, sans engagement. Le matériel est prêté.</p>
+
+      <form name="cours-essai" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/merci.html" class="cv-form" style="background:#fff;padding:24px;border-radius:16px;">
+        <input type="hidden" name="form-name" value="cours-essai" />
+        <p style="display:none;"><label>Ne pas remplir : <input name="bot-field" /></label></p>
+        <div class="cv-form__row">
+          <div class="cv-field">
+            <label for="f-nom">Nom et prénom *</label>
+            <input id="f-nom" name="nom" required />
+          </div>
+          <div class="cv-field">
+            <label for="f-email">E-mail *</label>
+            <input id="f-email" type="email" name="email" required />
+          </div>
+        </div>
+        <div class="cv-form__row">
+          <div class="cv-field">
+            <label for="f-tel">Téléphone</label>
+            <input id="f-tel" name="telephone" />
+          </div>
+          <div class="cv-field">
+            <label for="f-public">Pour qui ?</label>
+            <select id="f-public" name="public">
+              <option>Enfant (6–12 ans)</option>
+              <option>Ado</option>
+              <option>Adulte</option>
+            </select>
+          </div>
+        </div>
+        <div class="cv-field">
+          <label for="f-msg">Message (optionnel)</label>
+          <textarea id="f-msg" name="message" placeholder="Vos disponibilités, une question…"></textarea>
+        </div>
+        <div>
+          <button type="submit" class="cv-btn cv-btn--gold">Envoyer ma demande</button>
+        </div>
+      </form>
     </div>
   </section>
 

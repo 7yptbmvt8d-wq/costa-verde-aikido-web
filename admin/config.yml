@@ -1,0 +1,60 @@
+# Configuration de l'espace admin (Decap CMS) — Costa Verde Aïkido
+# ---------------------------------------------------------------------------
+# Authentification via Netlify Identity + Git Gateway (à activer côté Netlify).
+# Les modifications faites dans l'admin sont enregistrées dans le dépôt GitHub,
+# et le site se redéploie automatiquement.
+
+backend:
+  name: git-gateway
+  branch: claude/google-sites-review-system-rp4tb8
+
+# Dossier où sont déposées les photos importées via l'admin
+media_folder: "assets/img/galerie"
+public_folder: "/assets/img/galerie"
+
+locale: "fr"
+
+collections:
+  # ---------------------------------------------------------- STAGES
+  - name: "stages"
+    label: "Stages"
+    files:
+      - name: "liste"
+        label: "Liste des stages"
+        file: "data/stages.json"
+        description: "Ajoutez, modifiez ou supprimez les stages affichés sur la page Stages."
+        fields:
+          - label: "Stages"
+            name: "stages"
+            widget: "list"
+            label_singular: "Stage"
+            summary: "{{fields.date}} — {{fields.titre}}"
+            fields:
+              - { label: "Date", name: "date", widget: "string", hint: "Ex. « 15 nov. 2026 » ou « À venir »" }
+              - { label: "Titre", name: "titre", widget: "string" }
+              - { label: "Description", name: "description", widget: "text" }
+
+  # ---------------------------------------------------------- GALERIE
+  - name: "galerie"
+    label: "Galerie photos"
+    files:
+      - name: "saisons"
+        label: "Photos par saison"
+        file: "data/galerie.json"
+        description: "Classez vos photos par saison sportive. Mettez la saison la plus récente en premier."
+        fields:
+          - label: "Saisons"
+            name: "saisons"
+            widget: "list"
+            label_singular: "Saison"
+            summary: "{{fields.titre}}"
+            fields:
+              - { label: "Titre de la saison", name: "titre", widget: "string", hint: "Ex. « 2025 – 2026 »" }
+              - label: "Photos"
+                name: "photos"
+                widget: "list"
+                label_singular: "Photo"
+                summary: "{{fields.legende}}"
+                fields:
+                  - { label: "Image", name: "image", widget: "image" }
+                  - { label: "Légende", name: "legende", widget: "string", required: false }

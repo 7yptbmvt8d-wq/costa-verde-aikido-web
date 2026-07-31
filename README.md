@@ -38,6 +38,30 @@ tu ne saisis tes avis qu'une seule fois.
 
 ---
 
+## 🎛️ Espace admin (photos & stages)
+
+Un espace d'administration visuel (Decap CMS) est disponible sur **`/admin/`**
+pour gérer **les stages** et **la galerie photos** sans toucher au code.
+
+### Installation (une seule fois, côté Netlify)
+1. Netlify → ton projet → **Identity** → **Enable Identity**.
+2. Identity → **Registration** → mets **« Invite only »** (recommandé).
+3. Identity → **Services** → **Git Gateway** → **Enable**.
+4. Identity → **Invite users** → saisis ton adresse e-mail → tu reçois un mail,
+   clique le lien et choisis ton mot de passe.
+
+### Utilisation
+- Va sur **`https://snazzy-mandazi-e838c7.netlify.app/admin/`**, connecte-toi.
+- **Stages** : ajoute / modifie / supprime un stage (date, titre, description).
+- **Galerie photos** : crée une saison, importe des photos et ajoute une légende.
+- Clique **« Publier »** : le site se met à jour tout seul en ~1 min.
+
+Les données sont stockées dans `data/stages.json` et `data/galerie.json`
+(éditables aussi à la main au besoin). Le fichier `galerie-config.js` ne sert
+plus que de repli pour l'aperçu local.
+
+---
+
 ## ✏️ Modifier le contenu (sans être développeur)
 
 ### Les avis → `config.js`
