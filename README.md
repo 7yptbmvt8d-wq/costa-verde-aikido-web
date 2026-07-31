@@ -24,7 +24,9 @@ gratuitement sur **GitHub Pages**, sans build ni serveur à maintenir.
 │   ├── site.js         ← menu mobile + section « Avis »
 │   ├── reviews.css     ← styles du widget d'avis autonome
 │   └── reviews.js      ← logique du widget d'avis autonome
+│   └── gallery.js      ← logique du carrousel de la galerie
 ├── config.js           ← ⚙️ AVIS : tes avis + réglages Google (fichier partagé)
+├── galerie-config.js   ← ⚙️ GALERIE : tes photos, classées par saison
 ├── avis/
 │   └── index.html      ← widget d'avis SEUL (embarquable, ex. Google Sites)
 ├── .nojekyll
@@ -64,6 +66,17 @@ Les zones hachurées sont des **placeholders**. Pour mettre une vraie image :
    <div class="cv-media" style="background-image:url('assets/img/hero.jpg')"></div>
    ```
    ou pour un portrait : `<img class="cv-portrait" src="assets/img/ueshiba.jpg" alt="Moriheï Ueshiba">`
+
+### La galerie photos → `galerie-config.js`
+La galerie est un **carrousel classé par saison sportive**. Ouvre
+`galerie-config.js` :
+- Chaque bloc `{ titre: "...", photos: [...] }` = **une saison** (un onglet).
+  Mets la saison la plus récente en 1er.
+- Pour ajouter une photo : dépose-la dans `assets/img/galerie/` puis ajoute
+  ```js
+  { src: "assets/img/galerie/ma-photo.jpg", legende: "Ce que montre la photo" },
+  ```
+- Une photo sans `src` s'affiche comme un emplacement (pour préparer une saison).
 
 ### Les réseaux sociaux → `index.html` (footer)
 Remplace les `href="#"` des liens Facebook / Instagram / WhatsApp / YouTube

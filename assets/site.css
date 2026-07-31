@@ -451,6 +451,73 @@ body { margin: 0; background: var(--cv-green); }
 .cv-stage__body { flex: 1; min-width: 220px; }
 .cv-stage__body h3 { font-family: "Bricolage Grotesque", sans-serif; font-weight: 800; font-size: 20px; margin: 0 0 6px; }
 
+/* --- Galerie : sélecteur de saison + carrousel --------------------------- */
+.cv-seasons { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 26px; }
+.cv-season-btn {
+  border: 1px solid var(--cv-border);
+  background: #fff;
+  color: var(--cv-green);
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 9px 18px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: border-color .15s ease, background .15s ease, color .15s ease;
+}
+.cv-season-btn:hover { border-color: var(--cv-gold); }
+.cv-season-btn.is-active { background: var(--cv-green); color: var(--cv-cream); border-color: var(--cv-green); }
+
+.cv-carousel { position: relative; }
+.cv-carousel__viewport { overflow: hidden; border-radius: 16px; }
+.cv-carousel__track { display: flex; transition: transform .4s ease; }
+.cv-slide {
+  flex: 0 0 100%;
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: #e9eee8;
+}
+.cv-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cv-slide__ph {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--cv-ink-4);
+  font-family: ui-monospace, monospace;
+  font-size: 13px;
+  background: repeating-linear-gradient(45deg,#dfe6df,#dfe6df 12px,#e9eee8 12px,#e9eee8 24px);
+}
+.cv-slide__cap {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  padding: 16px 20px;
+  color: #fff;
+  font-size: 14px;
+  background: linear-gradient(transparent, rgba(0,0,0,.6));
+}
+.cv-carousel__btn {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 46px; height: 46px;
+  border: 0; border-radius: 50%;
+  background: rgba(14,59,54,.82);
+  color: #fff;
+  cursor: pointer;
+  display: grid; place-items: center;
+  transition: background .15s ease;
+}
+.cv-carousel__btn:hover { background: var(--cv-green); }
+.cv-carousel__btn--prev { left: 14px; }
+.cv-carousel__btn--next { right: 14px; }
+.cv-carousel__btn svg { width: 22px; height: 22px; }
+.cv-dots { display: flex; gap: 8px; justify-content: center; margin-top: 18px; }
+.cv-dot {
+  width: 9px; height: 9px; padding: 0;
+  border: 0; border-radius: 50%;
+  background: var(--cv-border);
+  cursor: pointer;
+  transition: background .15s ease, width .15s ease;
+}
+.cv-dot.is-active { background: var(--cv-gold); width: 24px; border-radius: 999px; }
+.cv-carousel__empty { text-align: center; color: var(--cv-ink-3); padding: 48px 16px; }
+
 /* --- Responsive ---------------------------------------------------------- */
 /* Le menu (long) passe en burger dès 1080px pour ne jamais déborder. */
 @media (max-width: 1080px) {
@@ -485,5 +552,5 @@ body { margin: 0; background: var(--cv-green); }
 
 @media (prefers-reduced-motion: reduce) {
   * { scroll-behavior: auto !important; }
-  .cv-btn, .cv-card { transition: none !important; }
+  .cv-btn, .cv-card, .cv-carousel__track { transition: none !important; }
 }

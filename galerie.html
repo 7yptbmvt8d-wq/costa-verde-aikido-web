@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Libre+Franklin:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="icon" href="assets/img/logo.png" />
-  <link rel="stylesheet" href="assets/site.css?v=6" />
+  <link rel="stylesheet" href="assets/site.css?v=7" />
 </head>
 <body>
 <div class="cv">
@@ -44,19 +44,26 @@
     </div>
   </section>
 
-  <!-- ================= GRILLE PHOTOS ================= -->
+  <!-- ================= CARROUSEL PAR SAISON ================= -->
   <section class="cv-wrap cv-section">
-    <!-- Pour ajouter une vraie photo, remplace une case par :
-         <img class="cv-ph" src="assets/img/photo1.jpg" alt="Description" style="aspect-ratio:4/3;border-radius:12px;object-fit:cover;width:100%;"> -->
-    <div class="cv-gallery">
-      <div class="cv-ph">photo 1</div>
-      <div class="cv-ph">photo 2</div>
-      <div class="cv-ph">photo 3</div>
-      <div class="cv-ph">photo 4</div>
-      <div class="cv-ph">photo 5</div>
-      <div class="cv-ph">photo 6</div>
+    <!-- Sélecteur de saison (généré depuis galerie-config.js) -->
+    <div class="cv-seasons" id="cv-seasons"></div>
+
+    <!-- Carrousel -->
+    <div class="cv-carousel" id="cv-carousel" aria-roledescription="carrousel" aria-label="Photos de la saison">
+      <div class="cv-carousel__viewport">
+        <div class="cv-carousel__track" id="cv-track"></div>
+      </div>
+      <button class="cv-carousel__btn cv-carousel__btn--prev" type="button" aria-label="Photo précédente">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <button class="cv-carousel__btn cv-carousel__btn--next" type="button" aria-label="Photo suivante">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+      </button>
+      <div class="cv-dots" id="cv-dots"></div>
     </div>
-    <p class="cv-p" style="margin-top:24px;color:var(--cv-ink-3);">Les photos seront ajoutées prochainement. Vous avez de belles images du dojo à partager ? Écrivez-nous à <a href="mailto:costaverdeaikido.ffab@gmail.com" style="color:var(--cv-green);font-weight:600;">costaverdeaikido.ffab@gmail.com</a>.</p>
+
+    <p class="cv-p" style="margin-top:24px;color:var(--cv-ink-3);">Les photos sont classées par saison sportive. Vous avez de belles images du dojo à partager ? Écrivez-nous à <a href="mailto:costaverdeaikido.ffab@gmail.com" style="color:var(--cv-green);font-weight:600;">costaverdeaikido.ffab@gmail.com</a>.</p>
   </section>
 
   <!-- ================= FOOTER ================= -->
@@ -78,5 +85,8 @@
 
 </div>
 <script src="assets/site.js?v=3"></script>
+<!-- Galerie : données (à modifier) + logique du carrousel -->
+<script src="galerie-config.js?v=1"></script>
+<script src="assets/gallery.js?v=1"></script>
 </body>
 </html>
