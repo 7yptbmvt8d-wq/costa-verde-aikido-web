@@ -101,8 +101,15 @@ body { margin: 0; background: var(--cv-green); }
   text-decoration: none;
   color: var(--cv-cream);
   white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
 }
 .cv-logo span { color: var(--cv-gold); }
+/* Logo image : badge blanc arrondi (rend bien sur le bandeau vert, que le
+   fichier soit détouré ou sur fond blanc). Si le fichier est absent, le
+   <img> se retire tout seul et seul le texte reste. */
+.cv-logo__img { height: 40px; width: auto; display: block; background: #fff; border-radius: 8px; padding: 4px; }
 
 .cv-nav {
   display: flex;
