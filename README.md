@@ -43,12 +43,17 @@ tu ne saisis tes avis qu'une seule fois.
 Un espace d'administration visuel (Decap CMS) est disponible sur **`/admin/`**
 pour gérer **les stages** et **la galerie photos** sans toucher au code.
 
-### Installation (une seule fois, côté Netlify)
-1. Netlify → ton projet → **Identity** → **Enable Identity**.
-2. Identity → **Registration** → mets **« Invite only »** (recommandé).
-3. Identity → **Services** → **Git Gateway** → **Enable**.
-4. Identity → **Invite users** → saisis ton adresse e-mail → tu reçois un mail,
-   clique le lien et choisis ton mot de passe.
+### Installation (une seule fois) — connexion via GitHub
+1. **GitHub → Settings → Developer settings → OAuth Apps → New OAuth App**
+   - Application name : `Costa Verde Aïkido Admin`
+   - Homepage URL : `https://snazzy-mandazi-e838c7.netlify.app`
+   - Authorization callback URL :
+     `https://snazzy-mandazi-e838c7.netlify.app/.netlify/functions/callback`
+   - **Register**, puis génère un **Client secret**. Note le **Client ID** et le **Client secret**.
+2. **Netlify → Project configuration → Environment variables → Add** :
+   - `OAUTH_CLIENT_ID` = ton Client ID
+   - `OAUTH_CLIENT_SECRET` = ton Client secret
+3. **Redéploie** le site (Netlify → Deploys → Trigger deploy).
 
 ### Utilisation
 - Va sur **`https://snazzy-mandazi-e838c7.netlify.app/admin/`**, connecte-toi.

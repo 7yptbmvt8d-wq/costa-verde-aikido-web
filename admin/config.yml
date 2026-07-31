@@ -5,8 +5,11 @@
 # et le site se redéploie automatiquement.
 
 backend:
-  name: git-gateway
+  name: github
+  repo: 7yptbmvt8d-wq/costa-verde-aikido-web
   branch: claude/google-sites-review-system-rp4tb8
+  base_url: https://snazzy-mandazi-e838c7.netlify.app
+  auth_endpoint: /.netlify/functions/auth
 
 # Dossier où sont déposées les photos importées via l'admin
 media_folder: "assets/img/galerie"

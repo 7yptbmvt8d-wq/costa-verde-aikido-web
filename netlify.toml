@@ -5,6 +5,10 @@
 [build]
   publish = "."
 
+# Fonctions serverless (connexion GitHub de l'espace admin)
+[functions]
+  directory = "netlify/functions"
+
 # En-têtes : petit cache raisonnable (les fichiers sont versionnés via ?v=…)
 [[headers]]
   for = "/*"
