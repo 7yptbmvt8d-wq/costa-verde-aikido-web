@@ -12,20 +12,23 @@ exports.handler = async (event) => {
     return { statusCode: 400, body: "Code d'autorisation manquant." };
   }
 
+  // Renvoie une page qui transmet le résultat à la fenêtre de l'admin (postMessage).
   function page(status, content) {
-    // Renvoie une page qui transmet le résultat à la fenêtre de l'admin (postMessage).
+    const message = "authorization:github:" + status + ":" + JSON.stringify(content);
+    // message est injecté comme littéral de chaîne JS grâce à JSON.stringify.
     const body =
-      '<!doctype html><html><body><script>' +
+      '<!doctype html><html><head><meta charset="utf-8"></head><body>' +
+      "<script>" +
       "(function(){" +
-      "  function receive(e){" +
-      "    window.opener.postMessage('authorization:github:" + status + ":' + JSON.stringify(content), e.origin);" +
-      "    window.removeEventListener('message', receive, false);" +
-      "  }" +
-      "  window.addEventListener('message', receive, false);" +
-      "  window.opener && window.opener.postMessage('authorizing:github', '*');" +
+      "function receive(e){" +
+      "window.opener.postMessage(" + JSON.stringify(message) + ", e.origin);" +
+      'window.removeEventListener("message", receive, false);' +
+      "}" +
+      'window.addEventListener("message", receive, false);' +
+      'window.opener && window.opener.postMessage("authorizing:github", "*");' +
       "})();" +
-      "</script><p>Connexion en cours…</p></body></html>";
-    return { statusCode: 200, headers: { "Content-Type": "text/html" }, body };
+      "<\/script><p>Connexion en cours...</p></body></html>";
+    return { statusCode: 200, headers: { "Content-Type": "text/html; charset=utf-8" }, body };
   }
 
   try {
