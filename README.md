@@ -56,10 +56,13 @@ pour gérer **les stages** et **la galerie photos** sans toucher au code.
 3. **Redéploie** le site (Netlify → Deploys → Trigger deploy).
 
 ### Utilisation
-- Va sur **`https://snazzy-mandazi-e838c7.netlify.app/admin/`**, connecte-toi.
+- Va sur **`https://costaverdeaikido.fr/admin/`**, connecte-toi avec GitHub.
+- **Avis** : ajoute un avis Google (nom, note, texte) — la note globale (4,8★)
+  reste, elle, récupérée automatiquement depuis Google.
+- **Photos du site** : les images des pages (accueil, histoire, portraits).
 - **Stages** : ajoute / modifie / supprime un stage (date, titre, description).
 - **Galerie photos** : crée une saison, importe des photos et ajoute une légende.
-- Clique **« Publier »** : le site se met à jour tout seul en ~1 min.
+- Mode brouillon actif : **« Save »** met en attente, **« Publish »** met en ligne.
 
 Les données sont stockées dans `data/stages.json` et `data/galerie.json`
 (éditables aussi à la main au besoin). Le fichier `galerie-config.js` ne sert

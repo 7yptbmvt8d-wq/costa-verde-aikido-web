@@ -22,6 +22,36 @@ public_folder: "/assets/img"
 locale: "fr"
 
 collections:
+  # ---------------------------------------------------------- AVIS
+  - name: "avis"
+    label: "Avis"
+    files:
+      - name: "liste"
+        label: "Avis des pratiquants"
+        file: "data/avis.json"
+        description: >-
+          Les avis affichés sur le site. Pour ajouter un nouvel avis Google :
+          ouvrez votre fiche Google, copiez le prénom, la note et le texte de
+          l'avis, puis collez-les ici. La note globale (4,8★) est mise à jour
+          automatiquement depuis Google, vous n'avez rien à faire pour elle.
+        fields:
+          - label: "Avis"
+            name: "avis"
+            widget: "list"
+            label_singular: "Avis"
+            summary: "{{fields.nom}} — {{fields.note}}★"
+            fields:
+              - { label: "Nom (ex. « Marie L. »)", name: "nom", widget: "string" }
+              - label: "Note"
+                name: "note"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 5
+                default: 5
+              - { label: "Provenance / date", name: "date", widget: "string", default: "Avis Google", required: false }
+              - { label: "Texte de l'avis", name: "texte", widget: "text" }
+
   # ---------------------------------------------------------- PHOTOS DU SITE
   - name: "photos"
     label: "Photos du site"

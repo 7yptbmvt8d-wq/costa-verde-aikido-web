@@ -238,9 +238,9 @@
   window.addEventListener("resize", autoResize);
 
   /* --- Orchestration ----------------------------------------------------- */
-  function start() {
+  function start(avisSource) {
     if (!root) return;
-    var manual = (CFG.avisMisEnAvant || []).map(normalizeManual);
+    var manual = (avisSource || CFG.avisMisEnAvant || []).map(normalizeManual);
     var mode = CFG.mode || "hybride";
 
     if (mode === "manuel") {
@@ -277,9 +277,16 @@
     });
   }
 
+  // Les avis viennent de l'espace admin (../data/avis.json) ; repli sur config.js
+  function boot() {
+    fetch("../data/avis.json", { cache: "no-store" })
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+      .then(function (j) { start((j && j.avis) || null); })
+      .catch(function () { start(null); });
+  }
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", start);
+    document.addEventListener("DOMContentLoaded", boot);
   } else {
-    start();
+    boot();
   }
 })();
