@@ -122,6 +122,7 @@ body { margin: 0; background: var(--cv-green); }
   position: relative;
   cursor: pointer;
   text-decoration: none;
+  white-space: nowrap;
   transition: color .15s ease;
 }
 .cv-navlink:hover { color: var(--cv-gold); }
@@ -519,8 +520,8 @@ body { margin: 0; background: var(--cv-green); }
 .cv-carousel__empty { text-align: center; color: var(--cv-ink-3); padding: 48px 16px; }
 
 /* --- Responsive ---------------------------------------------------------- */
-/* Le menu (long) passe en burger dès 1080px pour ne jamais déborder. */
-@media (max-width: 1080px) {
+/* Le menu (long) passe en burger dès 1240px pour ne jamais déborder. */
+@media (max-width: 1240px) {
   .cv-burger { display: flex; }
   .cv-nav {
     position: absolute;
