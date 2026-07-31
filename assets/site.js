@@ -130,11 +130,31 @@
       Array.prototype.forEach.call(nodes, function (el) {
         var src = map[el.getAttribute("data-photo")];
         if (!src) return;
-        el.style.backgroundImage = "url('" + src + "')";
-        el.style.backgroundSize = "cover";
-        el.style.backgroundPosition = "center";
+        var adapt = el.getAttribute("data-photo-fit") === "adapt";
         el.classList.remove("cv-ph");
         el.textContent = "";
+        el.style.background = "none";
+        el.removeAttribute("role");
+
+        var img = document.createElement("img");
+        img.src = src;
+        img.alt = el.getAttribute("aria-label") || "";
+        img.loading = "lazy";
+        img.style.display = "block";
+        img.style.width = "100%";
+        img.style.borderRadius = "inherit";
+        if (adapt) {
+          // S'adapte à l'orientation : image entière, sans recadrage ni bande.
+          img.style.height = "auto";
+          el.style.minHeight = "0";
+          el.style.aspectRatio = "auto";
+        } else {
+          // Remplit le cadre (photo de fond) : aucune bande, recadrage centré.
+          img.style.height = "100%";
+          img.style.objectFit = "cover";
+        }
+        el.removeAttribute("aria-label");
+        el.appendChild(img);
       });
     })
     .catch(function () { /* repli : les emplacements restent affichés */ });
