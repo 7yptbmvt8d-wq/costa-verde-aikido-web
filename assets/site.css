@@ -125,6 +125,21 @@ body { margin: 0; background: var(--cv-green); }
   transition: color .15s ease;
 }
 .cv-navlink:hover { color: var(--cv-gold); }
+/* Trait or animé qui apparaît sous l'onglet au survol */
+.cv-navlink::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -5px;
+  height: 2px;
+  background: var(--cv-gold);
+  border-radius: 2px;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform .2s ease;
+}
+.cv-navlink:hover::after { transform: scaleX(1); }
 
 .cv-header__cta { padding: 11px 20px; font-size: 14px; border-radius: 8px; }
 
@@ -454,6 +469,7 @@ body { margin: 0; background: var(--cv-green); }
   }
   .cv-header.is-open .cv-nav { display: flex; }
   .cv-nav .cv-navlink { padding: 14px 0; border-bottom: 1px solid rgba(246,244,239,.08); }
+  .cv-nav .cv-navlink::after { display: none; }
 }
 
 /* La mise en page (grilles) passe en 1 colonne sur mobile. */
