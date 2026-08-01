@@ -335,6 +335,23 @@ a.cv-sched-card:hover h3 { color: var(--cv-gold); }
 }
 .cv-chain__arrow { color: var(--cv-gold); font-weight: 700; }
 
+/* Sur écran étroit, la chaîne se lit de haut en bas : les flèches pivotent
+   et chaque maillon occupe sa propre ligne (sinon les flèches se retrouvent
+   orphelines en début/fin de ligne). */
+@media (max-width: 780px) {
+  .cv-chain {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .cv-chain__item { text-align: center; }
+  .cv-chain__arrow {
+    transform: rotate(90deg);
+    line-height: 1;
+    font-size: 18px;
+  }
+}
+
 /* Variante de la chaîne sur fond clair */
 .cv-chain--light { border-top-color: var(--cv-border); }
 .cv-chain--light .cv-chain__item {
