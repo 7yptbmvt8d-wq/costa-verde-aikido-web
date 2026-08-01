@@ -75,26 +75,32 @@
   }
 
   /* Note Google réelle (moyenne + nombre) via l'API Places (New) */
-  function loadGoogleScore() {
-    if (!CFG.placeId || !CFG.cleApiGoogle) return;
+  /* Affiche la note globale Google (moyenne + nombre d'avis). */
+  function showScore(rating, count) {
+    if (!count) return;
+    var box = document.getElementById("cv-gscore");
+    if (!box) return;
+    document.getElementById("cv-gscore-num").textContent =
+      (Number(rating) || 0).toFixed(1).replace(".", ",");
+    document.getElementById("cv-gscore-stars").innerHTML = starsHtml(rating);
+    document.getElementById("cv-gscore-meta").textContent = count + " avis sur Google";
+    var cta = document.getElementById("cv-review-cta");
+    var link = reviewLink();
+    if (cta && link) cta.href = link; else if (cta) cta.style.display = "none";
+    box.hidden = false;
+  }
+
+  /* Repli : ancienne méthode via la bibliothèque Google Maps (~200 Ko).
+     N'est chargée que si l'appel direct échoue. */
+  function loadScoreViaMapsLibrary() {
     var cb = "cvSiteGmaps_" + Date.now();
     window[cb] = function () {
       google.maps.importLibrary("places").then(function (lib) {
-        var place = new lib.Place({ id: CFG.placeId });
-        return place.fetchFields({ fields: ["rating", "userRatingCount"] });
+        return new lib.Place({ id: CFG.placeId })
+          .fetchFields({ fields: ["rating", "userRatingCount"] });
       }).then(function (res) {
         var p = res.place || {};
-        if (!p.userRatingCount) return;
-        var box = document.getElementById("cv-gscore");
-        document.getElementById("cv-gscore-num").textContent =
-          (Number(p.rating) || 0).toFixed(1).replace(".", ",");
-        document.getElementById("cv-gscore-stars").innerHTML = starsHtml(p.rating);
-        document.getElementById("cv-gscore-meta").textContent =
-          p.userRatingCount + " avis sur Google";
-        var cta = document.getElementById("cv-review-cta");
-        var link = reviewLink();
-        if (cta && link) cta.href = link; else if (cta) cta.style.display = "none";
-        box.hidden = false;
+        showScore(p.rating, p.userRatingCount);
       }).catch(function () { /* silencieux : la note reste masquée */ });
     };
     var s = document.createElement("script");
@@ -102,6 +108,20 @@
     s.src = "https://maps.googleapis.com/maps/api/js?key=" +
       encodeURIComponent(CFG.cleApiGoogle) + "&loading=async&libraries=places&callback=" + cb;
     document.head.appendChild(s);
+  }
+
+  /* Méthode légère : un simple appel à l'API Places (quelques octets),
+     au lieu de charger toute la bibliothèque Google Maps. */
+  function loadGoogleScore() {
+    if (!CFG.placeId || !CFG.cleApiGoogle) return;
+    fetch("https://places.googleapis.com/v1/places/" + encodeURIComponent(CFG.placeId) +
+          "?fields=rating,userRatingCount&key=" + encodeURIComponent(CFG.cleApiGoogle))
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+      .then(function (p) {
+        if (!p || !p.userRatingCount) return Promise.reject();
+        showScore(p.rating, p.userRatingCount);
+      })
+      .catch(function () { loadScoreViaMapsLibrary(); });
   }
 
   /* Les avis sont gérés dans l'espace admin (data/avis.json).
@@ -148,7 +168,14 @@
         var img = document.createElement("img");
         img.src = src;
         img.alt = el.getAttribute("aria-label") || "";
-        img.loading = "lazy";
+        img.decoding = "async";
+        if (el.hasAttribute("data-photo-eager")) {
+          // Image visible dès l'ouverture : on la charge en priorité.
+          img.loading = "eager";
+          img.setAttribute("fetchpriority", "high");
+        } else {
+          img.loading = "lazy";
+        }
         img.style.display = "block";
         img.style.width = "100%";
         img.style.borderRadius = "inherit";

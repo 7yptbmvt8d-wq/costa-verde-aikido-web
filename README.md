@@ -121,6 +121,19 @@ e-mail ou un formulaire, remplace `href="#contact"` par
 
 ---
 
+## ⚡ Performance — bonnes pratiques
+
+Le site a été optimisé (images allégées, polices réduites, cache long).
+Pour que ça le reste :
+
+- **Avant d'importer une photo dans l'admin**, réduis-la si elle vient d'un
+  téléphone : une image de **1600 px de large** suffit largement (les photos
+  brutes font souvent 3000-4000 px et plusieurs Mo pour rien).
+- Format **JPEG** pour les photos, **PNG** seulement pour les logos.
+- Si tu ajoutes des fichiers CSS/JS, pense à incrémenter le `?v=` dans les
+  pages HTML : c'est ce qui force les navigateurs à recharger la nouveauté
+  (le cache est réglé sur 1 an pour ces fichiers).
+
 ## 🎨 Charte graphique
 
 | Élément | Valeur |
