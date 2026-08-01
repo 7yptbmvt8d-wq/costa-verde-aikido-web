@@ -341,6 +341,13 @@ a.cv-sched-card:hover h3 { color: var(--cv-gold); }
   flex: 0 0 200px;
   border: 3px solid var(--cv-gold);
   box-shadow: 0 14px 34px -16px rgba(0,0,0,.55);
+  overflow: hidden;           /* nécessaire pour le recadrage ci-dessous */
+}
+/* Léger zoom permanent : recentre sur le visage et évite les mentions
+   éventuelles en bas de photo. */
+.cv-master--lg .cv-portrait img {
+  transform: scale(1.18);
+  transform-origin: center 32%;
 }
 .cv-master--lg h3 { font-size: clamp(24px, 2.6vw, 30px); }
 .cv-master--lg .cv-master__role { font-size: 16px; font-weight: 600; margin-top: 6px; }
