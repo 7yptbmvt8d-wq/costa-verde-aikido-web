@@ -124,13 +124,32 @@
       .catch(function () { loadScoreViaMapsLibrary(); });
   }
 
-  /* Les avis sont gérés dans l'espace admin (data/avis.json).
-     Repli sur config.js si le fichier n'est pas joignable. */
-  function loadReviews() {
-    fetch("data/avis.json", { cache: "no-store" })
+  /* Avis gérés dans l'espace admin (data/avis.json) — sert de secours. */
+  function loadReviewsFromAdmin() {
+    return fetch("data/avis.json", { cache: "no-store" })
       .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
-      .then(function (j) { renderReviews((j && j.avis) || []); })
-      .catch(function () { renderReviews(CFG.avisMisEnAvant || []); });
+      .then(function (j) { return (j && j.avis) || []; })
+      .catch(function () { return CFG.avisMisEnAvant || []; });
+  }
+
+  /* Vrais avis Google, récupérés côté serveur (fonction Netlify).
+     Le texte des avis n'est pas accessible depuis un navigateur. */
+  function loadReviews() {
+    fetch("/.netlify/functions/reviews", { cache: "no-store" })
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+      .then(function (d) {
+        if (!d || !d.reviews || !d.reviews.length) return Promise.reject();
+        renderReviews(d.reviews.map(function (r) {
+          return { nom: r.author, note: r.rating, date: r.time || "Avis Google", texte: r.text };
+        }));
+        if (d.total) showScore(d.rating, d.total);
+        return true;
+      })
+      .catch(function () {
+        // Pas de fonction serveur (aperçu local) ou aucun avis rédigé :
+        // on affiche les avis saisis dans l'admin.
+        loadReviewsFromAdmin().then(renderReviews);
+      });
   }
 
   function start() {
