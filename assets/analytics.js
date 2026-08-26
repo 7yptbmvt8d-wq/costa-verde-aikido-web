@@ -8,7 +8,7 @@
  *     On le trouve dans Google Analytics → Admin → Flux de données → site web.
  *     Tant qu'il est vide, rien ne se charge et aucun bandeau ne s'affiche.
  * ==========================================================================*/
-var CV_GA_ID = ""; // ex. "G-XXXXXXXXXX"
+var CV_GA_ID = "G-V1D9FQTH9J"; // propriété « costaverdeaikido.fr »
 
 (function () {
   "use strict";
