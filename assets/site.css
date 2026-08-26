@@ -644,6 +644,57 @@ a.cv-sched-card:hover h3 { color: var(--cv-gold); }
 .cv-dot.is-active { background: var(--cv-gold); width: 24px; border-radius: 999px; }
 .cv-carousel__empty { text-align: center; color: var(--cv-ink-3); padding: 48px 16px; }
 
+/* --- Bandeau cookies ----------------------------------------------------- */
+.cv-cookies {
+  position: fixed;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  z-index: 100;
+  max-width: 780px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+  background: var(--cv-green);
+  color: var(--cv-cream);
+  border: 1px solid rgba(246,244,239,.2);
+  border-radius: 14px;
+  padding: 18px 22px;
+  box-shadow: 0 18px 44px -18px rgba(0,0,0,.6);
+  animation: cv-cookies-in .3s ease both;
+}
+@keyframes cv-cookies-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
+.cv-cookies__texte {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--cv-on-green);
+  flex: 1 1 320px;
+}
+.cv-cookies__actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.cv-cookies__btn { padding: 10px 20px; font-size: 14px; }
+.cv .cv-cookies__btn--refus {
+  background: rgba(246,244,239,.12);
+  color: var(--cv-cream);
+}
+.cv .cv-cookies__btn--refus:hover { background: rgba(246,244,239,.2); }
+.cv-cookies-lien a { text-decoration: underline; }
+
+@media (max-width: 560px) {
+  .cv-cookies { padding: 16px; }
+  .cv-cookies__actions { width: 100%; }
+  .cv-cookies__btn { flex: 1; text-align: center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cv-cookies { animation: none; }
+}
+
 /* --- Responsive ---------------------------------------------------------- */
 /* Le menu (long) passe en burger dès 1160px pour ne jamais déborder. */
 @media (max-width: 1160px) {
