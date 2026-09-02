@@ -11,17 +11,31 @@
 
 const PLACE_ID_PAR_DEFAUT = "ChIJH08d8WVC1xIRWFj-oVmxAAc"; // Costa Verde Aïkido
 
+// Fiche de référence utilisée uniquement par ?test=1 (voir plus bas) : elle a
+// des milliers d'avis rédigés. Elle sert à savoir si la clé sait lire les
+// textes d'avis, indépendamment de la fiche du club. Volontairement codée en
+// dur : la fiche interrogée ne doit pas pouvoir être choisie de l'extérieur,
+// sinon n'importe qui pourrait consommer le quota Google du club.
+const PLACE_ID_TEMOIN = "ChIJLU7jZClu5kcR4PcOOO6p3I0"; // Tour Eiffel
+
 exports.handler = async (event) => {
   const key = process.env.GOOGLE_PLACES_KEY;
-  const placeId = process.env.GOOGLE_PLACE_ID || PLACE_ID_PAR_DEFAUT;
-  const debug = !!(event && event.queryStringParameters && event.queryStringParameters.debug);
+  const params = (event && event.queryStringParameters) || {};
+  const test = !!params.test;
+  const debug = !!params.debug || test;
+  const placeId = test
+    ? PLACE_ID_TEMOIN
+    : process.env.GOOGLE_PLACE_ID || PLACE_ID_PAR_DEFAUT;
 
   const repondre = (code, corps) => ({
     statusCode: code,
     headers: {
       "Content-Type": "application/json; charset=utf-8",
       // Cache 1 h côté CDN : évite d'appeler Google à chaque visite.
-      "Cache-Control": "public, max-age=0, s-maxage=3600",
+      // En diagnostic, aucun cache : on veut la réponse réelle du moment.
+      "Cache-Control": debug
+        ? "no-store"
+        : "public, max-age=0, s-maxage=3600",
     },
     body: JSON.stringify(corps),
   });
