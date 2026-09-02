@@ -11,9 +11,10 @@
 
 const PLACE_ID_PAR_DEFAUT = "ChIJH08d8WVC1xIRWFj-oVmxAAc"; // Costa Verde Aïkido
 
-exports.handler = async () => {
+exports.handler = async (event) => {
   const key = process.env.GOOGLE_PLACES_KEY;
   const placeId = process.env.GOOGLE_PLACE_ID || PLACE_ID_PAR_DEFAUT;
+  const debug = !!(event && event.queryStringParameters && event.queryStringParameters.debug);
 
   const repondre = (code, corps) => ({
     statusCode: code,
@@ -36,9 +37,10 @@ exports.handler = async () => {
     const res = await fetch(url, {
       headers: {
         "X-Goog-Api-Key": key,
-        "X-Goog-FieldMask":
-          "rating,userRatingCount,reviews.rating,reviews.text,reviews.originalText," +
-          "reviews.authorAttribution,reviews.relativePublishTimeDescription",
+        // « reviews » doit être demandé en entier : découpé en sous-champs
+        // (reviews.text, reviews.rating…), Google renvoie la note mais omet
+        // silencieusement les avis rédigés.
+        "X-Goog-FieldMask": "displayName,rating,userRatingCount,reviews",
       },
     });
     const data = await res.json();
@@ -66,11 +68,28 @@ exports.handler = async () => {
       })
       .filter((r) => r.text.trim().length > 0); // on n'affiche que les avis rédigés
 
-    return repondre(200, {
+    const reponse = {
       reviews: avis,
       rating: data.rating || null,
       total: data.userRatingCount || 0,
-    });
+    };
+
+    // /.netlify/functions/reviews?debug=1 — aide au diagnostic.
+    // N'expose aucune donnée sensible : ni la clé, ni autre chose que ce que
+    // Google publie déjà sur la fiche.
+    if (debug) {
+      const bruts = data.reviews || [];
+      reponse.diagnostic = {
+        fiche: (data.displayName || {}).text || "(nom absent)",
+        placeId: placeId,
+        avisRenvoyesParGoogle: bruts.length,
+        avisAvecTexte: avis.length,
+        champsDuPremierAvis: bruts[0] ? Object.keys(bruts[0]) : [],
+        champsDeLaReponse: Object.keys(data),
+      };
+    }
+
+    return repondre(200, reponse);
   } catch (e) {
     return repondre(200, { reviews: [], rating: null, total: 0, erreur: "Erreur réseau" });
   }
