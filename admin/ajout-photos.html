@@ -1,0 +1,567 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex" />
+  <title>Ajout groupé de photos — Costa Verde Aïkido</title>
+  <style>
+    :root {
+      --vert: #0e3b36;
+      --or: #e0b15e;
+      --creme: #f6f4ef;
+      --bord: #dcd8cf;
+      --texte: #2c3330;
+      --gris: #6b736e;
+      --rouge: #a33b2a;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font: 15px/1.6 "Libre Franklin", system-ui, -apple-system, "Segoe UI", sans-serif;
+      color: var(--texte);
+      background: var(--creme);
+    }
+    header {
+      background: var(--vert);
+      color: var(--creme);
+      padding: 20px 24px;
+    }
+    header h1 { margin: 0; font-size: 20px; letter-spacing: -.01em; }
+    header a { color: var(--or); font-size: 14px; text-decoration: none; }
+    header a:hover { text-decoration: underline; }
+    main { max-width: 900px; margin: 0 auto; padding: 28px 24px 60px; }
+    section {
+      background: #fff;
+      border: 1px solid var(--bord);
+      border-radius: 12px;
+      padding: 22px;
+      margin-bottom: 20px;
+    }
+    section[hidden] { display: none; }
+    h2 { margin: 0 0 6px; font-size: 16px; color: var(--vert); }
+    .aide { margin: 0 0 18px; color: var(--gris); font-size: 14px; }
+    label { display: block; font-weight: 600; font-size: 14px; margin-bottom: 6px; }
+    select, input[type="text"] {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--bord);
+      border-radius: 8px;
+      font: inherit;
+      background: #fff;
+    }
+    .bouton {
+      display: inline-block;
+      border: 0;
+      border-radius: 8px;
+      padding: 12px 22px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      background: var(--or);
+      color: var(--vert);
+    }
+    .bouton:disabled { opacity: .5; cursor: not-allowed; }
+    .bouton--sobre { background: transparent; color: var(--vert); border: 1px solid var(--bord); }
+
+    /* Zone de dépôt */
+    #zone {
+      border: 2px dashed var(--bord);
+      border-radius: 12px;
+      padding: 40px 20px;
+      text-align: center;
+      color: var(--gris);
+      cursor: pointer;
+      transition: border-color .15s, background .15s;
+    }
+    #zone:hover, #zone.survol { border-color: var(--or); background: #fffdf8; }
+    #zone strong { color: var(--vert); display: block; font-size: 16px; margin-bottom: 4px; }
+
+    /* Aperçus */
+    #apercus { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 14px; margin-top: 20px; }
+    .photo { border: 1px solid var(--bord); border-radius: 10px; overflow: hidden; background: #fff; }
+    .photo img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; background: #eee; }
+    .photo__bas { padding: 10px; }
+    .photo__bas input { font-size: 13px; padding: 7px 9px; }
+    .photo__meta { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; font-size: 12px; color: var(--gris); }
+    .photo__retirer { border: 0; background: none; color: var(--rouge); cursor: pointer; font: inherit; font-size: 12px; padding: 0; }
+    .photo.envoyee { opacity: .5; }
+
+    /* Journal */
+    #journal { margin-top: 16px; font-size: 14px; }
+    #journal div { padding: 3px 0; }
+    .ok { color: var(--vert); }
+    .erreur { color: var(--rouge); font-weight: 600; }
+    .encadre {
+      background: #fffdf8;
+      border: 1px solid var(--or);
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-size: 14px;
+      margin-top: 16px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Ajout groupé de photos</h1>
+  <a href="/admin/">← Retour à l'espace admin</a>
+</header>
+
+<main>
+
+  <!-- ---------------------------------------------------------- CONNEXION -->
+  <section id="etape-connexion">
+    <h2>Connexion</h2>
+    <p class="aide">Connectez-vous avec le compte GitHub du club, comme pour l'espace admin.</p>
+    <button class="bouton" id="btn-connexion" type="button">Se connecter avec GitHub</button>
+    <div id="etat-connexion" class="aide" style="margin:14px 0 0;"></div>
+  </section>
+
+  <!-- ------------------------------------------------------------- SAISON -->
+  <section id="etape-saison" hidden>
+    <h2>1. Choisir la saison</h2>
+    <p class="aide">Les photos seront ajoutées à la fin de la saison choisie.</p>
+    <label for="saison">Saison</label>
+    <select id="saison"></select>
+    <div id="bloc-nouvelle" hidden style="margin-top:14px;">
+      <label for="nouvelle-saison">Nom de la nouvelle saison</label>
+      <input type="text" id="nouvelle-saison" placeholder="Ex. 2027 – 2028" />
+    </div>
+  </section>
+
+  <!-- ------------------------------------------------------------ PHOTOS -->
+  <section id="etape-photos" hidden>
+    <h2>2. Choisir les photos</h2>
+    <p class="aide">
+      Sélectionnez autant de photos que vous voulez, d'un seul coup. Elles sont
+      automatiquement réduites à 1600 px avant l'envoi : inutile de les
+      redimensionner vous-même.
+    </p>
+
+    <div id="zone">
+      <strong>Cliquez ici ou déposez vos photos</strong>
+      JPEG, PNG ou WebP — plusieurs à la fois
+    </div>
+    <input type="file" id="fichiers" accept="image/*" multiple hidden />
+
+    <div id="apercus"></div>
+  </section>
+
+  <!-- ------------------------------------------------------------ ENVOI -->
+  <section id="etape-envoi" hidden>
+    <h2>3. Publier</h2>
+    <p class="aide">
+      Toutes les photos sont envoyées en une seule fois. Le site se met à jour
+      tout seul quelques minutes plus tard.
+    </p>
+    <button class="bouton" id="btn-publier" type="button">Publier les photos</button>
+    <div id="journal"></div>
+  </section>
+
+</main>
+
+<script>
+/* ============================================================================
+ *  Ajout groupé de photos — Costa Verde Aïkido
+ * ----------------------------------------------------------------------------
+ *  L'espace admin (Decap) n'importe les photos qu'une par une : sa médiathèque
+ *  n'accepte qu'un fichier à la fois. Cette page comble ce manque.
+ *
+ *  Elle réutilise la connexion GitHub déjà en place pour l'admin, réduit les
+ *  images dans le navigateur, puis écrit TOUT en un seul enregistrement :
+ *  les images et la mise à jour de data/galerie.json. En cas d'échec en cours
+ *  de route, rien n'est écrit à moitié.
+ * ==========================================================================*/
+(function () {
+  "use strict";
+
+  var DEPOT   = "7yptbmvt8d-wq/costa-verde-aikido-web";
+  var BRANCHE = "claude/google-sites-review-system-rp4tb8";
+  var FICHIER = "data/galerie.json";
+  var DOSSIER = "assets/img/galerie";
+  var LARGEUR_MAX = 1600;   // côté le plus long, en pixels
+  var QUALITE = 0.82;       // compression JPEG
+
+  var token = null;
+  var galerie = null;       // contenu de data/galerie.json
+  var photos = [];          // { fichier, legende, apercu, element }
+
+  var $ = function (id) { return document.getElementById(id); };
+
+  function afficher(id, visible) { $(id).hidden = !visible; }
+
+  function noter(texte, classe) {
+    var d = document.createElement("div");
+    d.textContent = texte;
+    if (classe) d.className = classe;
+    $("journal").appendChild(d);
+    d.scrollIntoView({ block: "nearest" });
+  }
+
+  /* --- Connexion GitHub ---------------------------------------------------
+   * Même échange que l'espace admin : une fenêtre s'ouvre sur GitHub, qui
+   * renvoie le jeton par message. Le jeton n'est gardé qu'en mémoire — il
+   * disparaît dès que l'onglet est fermé, et n'est jamais enregistré.      */
+  function connecter() {
+    var largeur = 800, hauteur = 700;
+    var gauche = window.screenX + (window.outerWidth - largeur) / 2;
+    var haut = window.screenY + (window.outerHeight - hauteur) / 2;
+    var popup = window.open(
+      "/.netlify/functions/auth", "connexion-github",
+      "width=" + largeur + ",height=" + hauteur + ",left=" + gauche + ",top=" + haut
+    );
+    if (!popup) {
+      $("etat-connexion").textContent =
+        "La fenêtre de connexion a été bloquée. Autorisez les fenêtres surgissantes pour ce site.";
+      return;
+    }
+
+    function recevoir(e) {
+      var m = e.data;
+      if (typeof m !== "string") return;
+
+      // 1er temps : la fenêtre annonce qu'elle est prête, on lui répond.
+      if (m.indexOf("authorizing:github") === 0) {
+        popup.postMessage(m, e.origin);
+        return;
+      }
+      // 2e temps : elle renvoie le résultat.
+      if (m.indexOf("authorization:github:success:") === 0) {
+        window.removeEventListener("message", recevoir);
+        try {
+          token = JSON.parse(m.substring("authorization:github:success:".length)).token;
+        } catch (err) { token = null; }
+        if (token) demarrer();
+        else $("etat-connexion").textContent = "Réponse de GitHub illisible.";
+      } else if (m.indexOf("authorization:github:error:") === 0) {
+        window.removeEventListener("message", recevoir);
+        $("etat-connexion").textContent = "Connexion refusée par GitHub.";
+      }
+    }
+    window.addEventListener("message", recevoir);
+  }
+
+  /* --- Appels à GitHub ---------------------------------------------------- */
+  function api(chemin, options) {
+    options = options || {};
+    options.headers = Object.assign({
+      Authorization: "token " + token,
+      Accept: "application/vnd.github+json",
+      "Content-Type": "application/json"
+    }, options.headers || {});
+    return fetch("https://api.github.com/repos/" + DEPOT + chemin, options)
+      .then(function (r) {
+        if (!r.ok) {
+          return r.text().then(function (t) {
+            throw new Error("GitHub a répondu " + r.status + " — " + t.slice(0, 200));
+          });
+        }
+        return r.json();
+      });
+  }
+
+  // Décode un contenu base64 renvoyé par GitHub, en gérant les accents.
+  function depuisBase64(b64) {
+    var binaire = atob(b64.replace(/\n/g, ""));
+    var octets = new Uint8Array(binaire.length);
+    for (var i = 0; i < binaire.length; i++) octets[i] = binaire.charCodeAt(i);
+    return new TextDecoder("utf-8").decode(octets);
+  }
+
+  function versBase64(texte) {
+    var octets = new TextEncoder().encode(texte);
+    var binaire = "";
+    for (var i = 0; i < octets.length; i++) binaire += String.fromCharCode(octets[i]);
+    return btoa(binaire);
+  }
+
+  /* --- Démarrage une fois connecté ---------------------------------------- */
+  function demarrer() {
+    $("etat-connexion").textContent = "Connexion réussie. Chargement de la galerie…";
+
+    api("/contents/" + FICHIER + "?ref=" + encodeURIComponent(BRANCHE))
+      .then(function (f) {
+        galerie = JSON.parse(depuisBase64(f.content));
+        if (!galerie.saisons) galerie.saisons = [];
+        remplirSaisons();
+        afficher("etape-connexion", false);
+        afficher("etape-saison", true);
+        afficher("etape-photos", true);
+      })
+      .catch(function (e) {
+        $("etat-connexion").textContent = "Impossible de lire la galerie : " + e.message;
+      });
+  }
+
+  function remplirSaisons() {
+    var sel = $("saison");
+    sel.innerHTML = "";
+
+    // La plus récente d'abord, comme sur le site.
+    var triees = galerie.saisons.slice().sort(function (a, b) {
+      var x = (String(a.titre).match(/\d{4}/) || [0])[0];
+      var y = (String(b.titre).match(/\d{4}/) || [0])[0];
+      return y - x;
+    });
+
+    triees.forEach(function (s) {
+      var o = document.createElement("option");
+      o.value = s.titre;
+      o.textContent = s.titre + " (" + ((s.photos && s.photos.length) || 0) + " photo(s))";
+      sel.appendChild(o);
+    });
+
+    var o = document.createElement("option");
+    o.value = "__nouvelle__";
+    o.textContent = "+ Nouvelle saison…";
+    sel.appendChild(o);
+
+    afficher("bloc-nouvelle", false);
+  }
+
+  /* --- Réduction des images ------------------------------------------------
+   * Les photos de téléphone font souvent 3 à 5 Mo. Réduites à 1600 px, elles
+   * tombent autour de 200 Ko : le site reste rapide et l'envoi aussi.
+   * L'orientation EXIF est respectée pour éviter les photos couchées.      */
+  function reduire(fichier) {
+    return new Promise(function (resolut, rejet) {
+      var suite = function (source, largeur, hauteur) {
+        var ratio = Math.min(1, LARGEUR_MAX / Math.max(largeur, hauteur));
+        var l = Math.round(largeur * ratio);
+        var h = Math.round(hauteur * ratio);
+
+        var toile = document.createElement("canvas");
+        toile.width = l;
+        toile.height = h;
+        toile.getContext("2d").drawImage(source, 0, 0, l, h);
+
+        toile.toBlob(function (blob) {
+          if (!blob) return rejet(new Error("conversion impossible"));
+          var lecteur = new FileReader();
+          lecteur.onload = function () {
+            // "data:image/jpeg;base64,XXXX" -> on ne garde que XXXX
+            resolut({ base64: String(lecteur.result).split(",")[1], taille: blob.size });
+          };
+          lecteur.onerror = function () { rejet(new Error("lecture impossible")); };
+          lecteur.readAsDataURL(blob);
+        }, "image/jpeg", QUALITE);
+      };
+
+      if (window.createImageBitmap) {
+        createImageBitmap(fichier, { imageOrientation: "from-image" })
+          .then(function (bmp) { suite(bmp, bmp.width, bmp.height); })
+          .catch(function () { parImage(); });
+      } else {
+        parImage();
+      }
+
+      function parImage() {
+        var img = new Image();
+        img.onload = function () {
+          URL.revokeObjectURL(img.src);
+          suite(img, img.naturalWidth, img.naturalHeight);
+        };
+        img.onerror = function () { rejet(new Error("image illisible")); };
+        img.src = URL.createObjectURL(fichier);
+      }
+    });
+  }
+
+  /* --- Sélection des photos ------------------------------------------------ */
+  function ajouterFichiers(liste) {
+    Array.prototype.forEach.call(liste, function (f) {
+      if (!/^image\//.test(f.type)) return;
+
+      var entree = { fichier: f, legende: "" };
+      var carte = document.createElement("div");
+      carte.className = "photo";
+      carte.innerHTML =
+        '<img alt="">' +
+        '<div class="photo__bas">' +
+          '<input type="text" placeholder="Légende (facultatif)">' +
+          '<div class="photo__meta"><span></span>' +
+          '<button type="button" class="photo__retirer">Retirer</button></div>' +
+        '</div>';
+
+      var img = carte.querySelector("img");
+      img.src = URL.createObjectURL(f);
+      carte.querySelector(".photo__meta span").textContent =
+        Math.round(f.size / 1024) + " Ko";
+      carte.querySelector("input").addEventListener("input", function (e) {
+        entree.legende = e.target.value.trim();
+      });
+      carte.querySelector(".photo__retirer").addEventListener("click", function () {
+        photos = photos.filter(function (p) { return p !== entree; });
+        carte.remove();
+        majEnvoi();
+      });
+
+      entree.element = carte;
+      photos.push(entree);
+      $("apercus").appendChild(carte);
+    });
+    majEnvoi();
+  }
+
+  function majEnvoi() {
+    afficher("etape-envoi", photos.length > 0);
+    $("btn-publier").textContent = photos.length === 1
+      ? "Publier 1 photo"
+      : "Publier " + photos.length + " photos";
+  }
+
+  /* --- Publication ---------------------------------------------------------
+   * Tout part en un seul enregistrement : on prépare chaque image, puis on
+   * assemble l'ensemble (images + galerie.json) et on l'écrit d'un bloc.   */
+  function publier() {
+    if (!photos.length) return;
+
+    var titre = $("saison").value;
+    if (titre === "__nouvelle__") {
+      titre = $("nouvelle-saison").value.trim();
+      if (!titre) {
+        noter("Donnez un nom à la nouvelle saison.", "erreur");
+        return;
+      }
+    }
+
+    $("btn-publier").disabled = true;
+    $("journal").innerHTML = "";
+    noter("Préparation des photos…");
+
+    var horodatage = Date.now();
+    var elements = [];   // entrées à écrire dans le dépôt
+
+    // 1. Réduire puis déposer chaque image, l'une après l'autre pour ne pas
+    //    saturer la mémoire du téléphone.
+    var chaine = Promise.resolve();
+    photos.forEach(function (p, i) {
+      chaine = chaine.then(function () {
+        return reduire(p.fichier).then(function (r) {
+          noter("Photo " + (i + 1) + "/" + photos.length + " — " +
+                Math.round(p.fichier.size / 1024) + " Ko → " +
+                Math.round(r.taille / 1024) + " Ko");
+          return api("/git/blobs", {
+            method: "POST",
+            body: JSON.stringify({ content: r.base64, encoding: "base64" })
+          }).then(function (blob) {
+            var nom = horodatage + "-" + (i + 1) + ".jpg";
+            elements.push({
+              path: DOSSIER + "/" + nom,
+              mode: "100644",
+              type: "blob",
+              sha: blob.sha
+            });
+            p.chemin = "/" + DOSSIER + "/" + nom;
+            p.element.classList.add("envoyee");
+          });
+        });
+      });
+    });
+
+    // 2. Mettre à jour la galerie, puis tout écrire en une fois.
+    chaine
+      .then(function () {
+        var saison = galerie.saisons.filter(function (s) { return s.titre === titre; })[0];
+        if (!saison) {
+          saison = { titre: titre, photos: [] };
+          galerie.saisons.push(saison);
+          noter("Nouvelle saison créée : " + titre);
+        }
+        photos.forEach(function (p) {
+          var entree = { image: p.chemin };
+          if (p.legende) entree.legende = p.legende;
+          saison.photos.push(entree);
+        });
+
+        noter("Enregistrement…");
+        return api("/git/blobs", {
+          method: "POST",
+          body: JSON.stringify({
+            content: versBase64(JSON.stringify(galerie, null, 2) + "\n"),
+            encoding: "base64"
+          })
+        });
+      })
+      .then(function (blob) {
+        elements.push({ path: FICHIER, mode: "100644", type: "blob", sha: blob.sha });
+        return api("/git/ref/heads/" + BRANCHE);
+      })
+      .then(function (ref) {
+        var parent = ref.object.sha;
+        return api("/git/commits/" + parent).then(function (c) {
+          return api("/git/trees", {
+            method: "POST",
+            body: JSON.stringify({ base_tree: c.tree.sha, tree: elements })
+          }).then(function (arbre) {
+            return api("/git/commits", {
+              method: "POST",
+              body: JSON.stringify({
+                message: photos.length + " photo(s) ajoutée(s) à la saison " + titre,
+                tree: arbre.sha,
+                parents: [parent]
+              })
+            });
+          });
+        });
+      })
+      .then(function (commit) {
+        return api("/git/refs/heads/" + BRANCHE, {
+          method: "PATCH",
+          body: JSON.stringify({ sha: commit.sha })
+        });
+      })
+      .then(function () {
+        noter("✔ " + photos.length + " photo(s) publiée(s) dans « " + titre + " ».", "ok");
+        noter("Le site se met à jour dans 1 à 2 minutes.", "ok");
+        photos = [];
+        $("apercus").innerHTML = "";
+        afficher("etape-envoi", false);
+        $("btn-publier").disabled = false;
+        remplirSaisons();
+      })
+      .catch(function (e) {
+        noter("Échec : " + e.message, "erreur");
+        noter("Rien n'a été publié. Vous pouvez réessayer.", "erreur");
+        $("btn-publier").disabled = false;
+        photos.forEach(function (p) { p.element.classList.remove("envoyee"); });
+      });
+  }
+
+  /* --- Branchements -------------------------------------------------------- */
+  $("btn-connexion").addEventListener("click", connecter);
+  $("btn-publier").addEventListener("click", publier);
+
+  // Attaché une seule fois : la liste des saisons est reconstruite après
+  // chaque publication, mais l'écouteur, lui, ne doit pas s'empiler.
+  $("saison").addEventListener("change", function () {
+    afficher("bloc-nouvelle", $("saison").value === "__nouvelle__");
+  });
+
+  $("zone").addEventListener("click", function () { $("fichiers").click(); });
+  $("fichiers").addEventListener("change", function (e) {
+    ajouterFichiers(e.target.files);
+    e.target.value = "";
+  });
+
+  ["dragenter", "dragover"].forEach(function (n) {
+    $("zone").addEventListener(n, function (e) {
+      e.preventDefault();
+      $("zone").classList.add("survol");
+    });
+  });
+  ["dragleave", "drop"].forEach(function (n) {
+    $("zone").addEventListener(n, function (e) {
+      e.preventDefault();
+      $("zone").classList.remove("survol");
+    });
+  });
+  $("zone").addEventListener("drop", function (e) {
+    if (e.dataTransfer && e.dataTransfer.files) ajouterFichiers(e.dataTransfer.files);
+  });
+})();
+</script>
+</body>
+</html>
