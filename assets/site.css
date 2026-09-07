@@ -285,6 +285,29 @@ a.cv-sched-card:hover {
   box-shadow: 0 18px 40px -22px rgba(0,0,0,.5);
 }
 a.cv-sched-card:hover h3 { color: var(--cv-gold); }
+
+/* Survol des tuiles d'information (celles qui ne sont pas des liens) :
+   un relief plus discret que celui des tuiles cliquables — elles ne mènent
+   nulle part et ne doivent pas laisser croire le contraire. */
+.cv-sched-card:not(a) {
+  transition: transform .18s ease, border-color .18s ease,
+              background .18s ease, box-shadow .18s ease;
+}
+.cv-sched-card:not(a):hover {
+  transform: translateY(-3px);
+  border-color: var(--cv-gold);
+  box-shadow: 0 14px 34px -24px rgba(14,59,54,.45);
+}
+/* Sur le bandeau vert, un fond clair jurerait : on éclaircit à peine. */
+.cv-band-green .cv-sched-card:not(a):hover {
+  background: rgba(246,244,239,.06);
+  box-shadow: 0 14px 34px -22px rgba(0,0,0,.5);
+}
+
+/* Variante posée sur fond clair (page Horaires) : bordure douce.
+   En classe plutôt qu'en style écrit dans la page, sinon le survol ne
+   pourrait pas changer la couleur de la bordure. */
+.cv-sched-card--light { border-color: var(--cv-border); }
 .cv-sched-row {
   display: flex;
   justify-content: space-between;
@@ -552,6 +575,7 @@ a.cv-sched-card:hover h3 { color: var(--cv-gold); }
 
 /* Cartes de stages */
 .cv-stage {
+  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
   border: 1px solid var(--cv-border);
   border-radius: 14px;
   padding: 26px;
@@ -560,6 +584,11 @@ a.cv-sched-card:hover h3 { color: var(--cv-gold); }
   gap: 20px;
   align-items: flex-start;
   flex-wrap: wrap;
+}
+.cv-stage:hover {
+  transform: translateY(-3px);
+  border-color: var(--cv-gold);
+  box-shadow: 0 14px 34px -24px rgba(14,59,54,.45);
 }
 .cv-stage__date {
   font-family: "Bricolage Grotesque", sans-serif;
@@ -786,5 +815,8 @@ a.cv-sched-card:hover h3 { color: var(--cv-gold); }
 
 @media (prefers-reduced-motion: reduce) {
   * { scroll-behavior: auto !important; }
-  .cv-btn, .cv-card, .cv-carousel__track { transition: none !important; }
+  .cv-btn, .cv-card, .cv-sched-card, .cv-stage, .cv-carousel__track {
+    transition: none !important;
+    transform: none !important;
+  }
 }
