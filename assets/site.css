@@ -514,8 +514,32 @@ a.cv-sched-card:hover h3 { color: var(--cv-gold); }
 .cv-prose h2 { margin: 8px 0 16px; }
 .cv-prose h3 { font-family: "Bricolage Grotesque", sans-serif; font-weight: 800; font-size: 20px; margin: 26px 0 8px; color: var(--cv-green); }
 
+/* Listes à puces : même typographie que les paragraphes, puce dorée. */
+.cv-prose ul { margin: 0 0 18px; padding: 0; list-style: none; max-width: 72ch; }
+.cv-prose li {
+  position: relative;
+  padding-left: 22px;
+  margin-bottom: 12px;
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--cv-ink-2);
+}
+.cv-prose li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: .68em;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--cv-gold);
+}
+.cv-prose li strong { color: var(--cv-green); }
+
 /* Même bloc de texte, mais posé sur le fond vert */
 .cv-prose--on-green p { color: var(--cv-on-green); }
+.cv-prose--on-green li { color: var(--cv-on-green); }
+.cv-prose--on-green li strong { color: var(--cv-cream); }
 .cv-prose--on-green h3 { color: var(--cv-gold); }
 .cv-prose--on-green strong { color: var(--cv-cream); }
 
