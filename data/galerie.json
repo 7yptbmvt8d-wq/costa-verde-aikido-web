@@ -3,17 +3,59 @@
     {
       "titre": "2025 – 2026",
       "photos": [
-        { "image": "", "legende": "Cours enfants — reprise de septembre" },
-        { "image": "", "legende": "Pratique adultes au dojo" },
-        { "image": "", "legende": "Stage de fin d'année" }
+        {
+          "image": "",
+          "legende": "Cours enfants — reprise de septembre"
+        },
+        {
+          "image": "",
+          "legende": "Pratique adultes au dojo"
+        },
+        {
+          "image": "",
+          "legende": "Stage de fin d'année"
+        }
       ]
     },
     {
       "titre": "2024 – 2025",
       "photos": [
-        { "image": "", "legende": "Passage de grades" },
-        { "image": "", "legende": "Démonstration au forum des associations" },
-        { "image": "", "legende": "Entraînement du vendredi soir" }
+        {
+          "image": "",
+          "legende": "Passage de grades"
+        },
+        {
+          "image": "",
+          "legende": "Démonstration au forum des associations"
+        },
+        {
+          "image": "",
+          "legende": "Entraînement du vendredi soir"
+        }
+      ]
+    },
+    {
+      "titre": "2026 – 2027",
+      "photos": [
+        {
+          "image": "/assets/img/galerie/68614f70-9cba-40c1-8b2f-06ec6c721eab.jpg",
+          "legende": "Fête du sport à Moriani !"
+        },
+        {
+          "image": "/assets/img/galerie/8c65d6b4-61b6-4af7-84d2-886542416d7b.jpg"
+        },
+        {
+          "image": "/assets/img/galerie/4787f948-fd2b-4dfd-84e6-d2355c7b0b15.jpg"
+        },
+        {
+          "image": "/assets/img/galerie/4c7bbe89-3c6d-4191-8f98-e990e66d8a8c.jpg"
+        },
+        {
+          "image": "/assets/img/galerie/c5301b9c-7c35-492b-b202-af02b3b136f2.jpg"
+        },
+        {
+          "image": "/assets/img/galerie/f16a7694-7da9-4e38-8e2d-de9820521941.jpg"
+        }
       ]
     }
   ]
