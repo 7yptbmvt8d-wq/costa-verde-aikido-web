@@ -17,6 +17,27 @@
   var index = 0;     // index de la photo dans la saison
   var slidesCount = 0;
 
+  var DELAI = 5000;  // temps d'affichage de chaque photo (ms)
+  var minuteur = null;
+
+  /* --- Saison sportive en cours ------------------------------------------
+   * Une saison va de septembre à août : en septembre 2026, la saison en
+   * cours est « 2026 – 2027 ». On ne retient que l'année de début.       */
+  function anneeDebutSaisonActuelle() {
+    var d = new Date();
+    return d.getMonth() >= 8 ? d.getFullYear() : d.getFullYear() - 1;
+  }
+
+  // « 2025 – 2026 » -> 2025. Renvoie null si le titre ne contient pas d'année.
+  function anneeDebut(saison) {
+    var m = String((saison && saison.titre) || "").match(/\d{4}/);
+    return m ? parseInt(m[0], 10) : null;
+  }
+
+  function aDesPhotos(saison) {
+    return !!(saison && saison.photos && saison.photos.length);
+  }
+
   function escapeHtml(s) {
     return String(s == null ? "" : s)
       .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
@@ -24,6 +45,8 @@
   }
 
   /* --- Onglets de saison ------------------------------------------------- */
+  var indexSaisonEnCours = -1;
+
   function renderSeasons() {
     seasonsEl.innerHTML = "";
     DATA.forEach(function (s, i) {
@@ -31,6 +54,16 @@
       b.className = "cv-season-btn" + (i === current ? " is-active" : "");
       b.type = "button";
       b.textContent = s.titre || ("Saison " + (i + 1));
+
+      // La saison en cours est signalée, où qu'elle soit dans la liste.
+      if (i === indexSaisonEnCours) {
+        b.classList.add("cv-season-btn--now");
+        var badge = document.createElement("span");
+        badge.className = "cv-season-btn__badge";
+        badge.textContent = "en cours";
+        b.appendChild(badge);
+      }
+
       b.addEventListener("click", function () {
         if (current === i) return;
         current = i;
@@ -48,6 +81,7 @@
     slidesCount = photos.length;
 
     if (!slidesCount) {
+      arreter();
       trackEl.innerHTML = "";
       if (!carouselEl.querySelector(".cv-carousel__empty")) carouselEl.appendChild(mkEmpty());
       toggleControls(false);
@@ -72,10 +106,11 @@
         '" type="button" aria-label="Photo ' + (i + 1) + '"></button>';
     }).join("");
     Array.prototype.forEach.call(dotsEl.children, function (d, i) {
-      d.addEventListener("click", function () { go(i); });
+      d.addEventListener("click", manuel(function () { go(i); }));
     });
 
     go(0);
+    demarrer();
   }
 
   function mkEmpty() {
@@ -105,24 +140,58 @@
   function next() { go(index + 1); }
   function prev() { go(index - 1); }
 
+  /* --- Défilement automatique --------------------------------------------
+   * Les photos défilent seules, et s'arrêtent dès que le visiteur s'occupe
+   * du carrousel (survol, navigation au clavier, doigt sur l'écran) pour ne
+   * pas lui faire perdre la photo qu'il regarde. Toute action manuelle
+   * relance ensuite un tour complet.                                      */
+  var animationsReduites = !!(window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+
+  function arreter() {
+    if (minuteur) { clearInterval(minuteur); minuteur = null; }
+  }
+  function demarrer() {
+    arreter();
+    // Une seule photo, onglet en arrière-plan, ou réglage système
+    // « animations réduites » : on ne fait rien défiler.
+    if (animationsReduites || slidesCount < 2 || document.hidden) return;
+    minuteur = setInterval(next, DELAI);
+  }
+  // Navigation manuelle : on avance, puis on repart d'un délai entier.
+  function manuel(action) { return function () { action(); demarrer(); }; }
+
   var nextBtn = carouselEl.querySelector(".cv-carousel__btn--next");
   var prevBtn = carouselEl.querySelector(".cv-carousel__btn--prev");
-  if (nextBtn) nextBtn.addEventListener("click", next);
-  if (prevBtn) prevBtn.addEventListener("click", prev);
+  if (nextBtn) nextBtn.addEventListener("click", manuel(next));
+  if (prevBtn) prevBtn.addEventListener("click", manuel(prev));
+
+  carouselEl.addEventListener("mouseenter", arreter);
+  carouselEl.addEventListener("mouseleave", demarrer);
+  carouselEl.addEventListener("focusin", arreter);
+  carouselEl.addEventListener("focusout", demarrer);
+  document.addEventListener("visibilitychange", function () {
+    document.hidden ? arreter() : demarrer();
+  });
 
   carouselEl.setAttribute("tabindex", "0");
   carouselEl.addEventListener("keydown", function (e) {
-    if (e.key === "ArrowRight") next();
-    else if (e.key === "ArrowLeft") prev();
+    if (e.key === "ArrowRight") manuel(next)();
+    else if (e.key === "ArrowLeft") manuel(prev)();
   });
 
   var startX = null;
-  carouselEl.addEventListener("touchstart", function (e) { startX = e.touches[0].clientX; }, { passive: true });
+  carouselEl.addEventListener("touchstart", function (e) {
+    startX = e.touches[0].clientX;
+    arreter();
+  }, { passive: true });
   carouselEl.addEventListener("touchend", function (e) {
-    if (startX === null) return;
-    var dx = e.changedTouches[0].clientX - startX;
-    if (Math.abs(dx) > 40) { dx < 0 ? next() : prev(); }
+    if (startX !== null) {
+      var dx = e.changedTouches[0].clientX - startX;
+      if (Math.abs(dx) > 40) { dx < 0 ? next() : prev(); }
+    }
     startX = null;
+    demarrer();
   });
 
   /* --- Chargement des données -------------------------------------------- */
@@ -133,6 +202,37 @@
       carouselEl.appendChild(mkEmpty());
       return;
     }
+
+    // La plus récente d'abord, quel que soit l'ordre de saisie dans l'admin.
+    // Les saisons sans année dans le titre restent à la fin, dans leur ordre.
+    DATA.sort(function (a, b) {
+      var x = anneeDebut(a), y = anneeDebut(b);
+      if (x === null && y === null) return 0;
+      if (x === null) return 1;
+      if (y === null) return -1;
+      return y - x;
+    });
+
+    var actuelle = anneeDebutSaisonActuelle();
+    indexSaisonEnCours = DATA.findIndex
+      ? DATA.findIndex(function (s) { return anneeDebut(s) === actuelle; })
+      : -1;
+
+    // On ouvre sur la saison en cours. Si elle est encore vide (début de
+    // saison, photos pas encore ajoutées), on affiche la dernière saison qui
+    // a des photos plutôt qu'une galerie vide — l'onglet « en cours » reste
+    // visible et signalé.
+    if (indexSaisonEnCours >= 0 && aDesPhotos(DATA[indexSaisonEnCours])) {
+      current = indexSaisonEnCours;
+    } else {
+      var avecPhotos = -1;
+      for (var i = 0; i < DATA.length; i++) {
+        if (aDesPhotos(DATA[i])) { avecPhotos = i; break; }
+      }
+      current = avecPhotos >= 0 ? avecPhotos : Math.max(indexSaisonEnCours, 0);
+    }
+
+    index = 0;
     renderSeasons();
     renderSlides();
   }

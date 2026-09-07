@@ -594,6 +594,21 @@ a.cv-sched-card:hover h3 { color: var(--cv-gold); }
 .cv-season-btn:hover { border-color: var(--cv-gold); }
 .cv-season-btn.is-active { background: var(--cv-green); color: var(--cv-cream); border-color: var(--cv-green); }
 
+/* Saison sportive en cours : repérable même quand un autre onglet est ouvert. */
+.cv-season-btn--now { border-color: var(--cv-gold); }
+.cv-season-btn__badge {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--cv-gold);
+  color: var(--cv-green);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .02em;
+  vertical-align: 1px;
+}
+
 .cv-carousel { position: relative; }
 .cv-carousel__viewport { overflow: hidden; border-radius: 16px; }
 .cv-carousel__track { display: flex; transition: transform .4s ease; }
