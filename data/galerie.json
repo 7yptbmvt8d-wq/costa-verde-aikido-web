@@ -4,18 +4,6 @@
       "titre": "2025 – 2026",
       "photos": [
         {
-          "image": "",
-          "legende": "Cours enfants — reprise de septembre"
-        },
-        {
-          "image": "",
-          "legende": "Pratique adultes au dojo"
-        },
-        {
-          "image": "",
-          "legende": "Stage de fin d'année"
-        },
-        {
           "image": "/assets/img/galerie/1788785477864-1.jpg"
         },
         {
@@ -49,20 +37,7 @@
     },
     {
       "titre": "2024 – 2025",
-      "photos": [
-        {
-          "image": "",
-          "legende": "Passage de grades"
-        },
-        {
-          "image": "",
-          "legende": "Démonstration au forum des associations"
-        },
-        {
-          "image": "",
-          "legende": "Entraînement du vendredi soir"
-        }
-      ]
+      "photos": []
     },
     {
       "titre": "2026 – 2027",

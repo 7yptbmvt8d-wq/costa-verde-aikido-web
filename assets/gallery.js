@@ -34,8 +34,16 @@
     return m ? parseInt(m[0], 10) : null;
   }
 
+  // Les photos réellement affichables. Une entrée sans image produirait une
+  // diapositive grise et vide : on l'écarte plutôt que de la montrer.
+  function photosDe(saison) {
+    return ((saison && saison.photos) || []).filter(function (p) {
+      return String(p.image || p.src || "").trim() !== "";
+    });
+  }
+
   function aDesPhotos(saison) {
-    return !!(saison && saison.photos && saison.photos.length);
+    return photosDe(saison).length > 0;
   }
 
   function escapeHtml(s) {
@@ -77,7 +85,7 @@
 
   /* --- Diapositives ------------------------------------------------------ */
   function renderSlides() {
-    var photos = (DATA[current] && DATA[current].photos) || [];
+    var photos = photosDe(DATA[current]);
     slidesCount = photos.length;
 
     if (!slidesCount) {
